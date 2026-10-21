@@ -1,1824 +1,2012 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>履歷表 </title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700;800&display=swap"
-    rel="stylesheet">
-  <style>
-    :root {
-      --ink-black: #090814;
-
-      /* 半透明面板 */
-      --panel: rgba(180, 170, 255, 0.035);
-      --panel-2: rgba(180, 170, 255, 0.06);
-
-      /* 邊框 */
-      --line: rgba(210, 190, 255, 0.14);
-      --line-strong: rgba(210, 190, 255, 0.28);
-
-      /* 文字 */
-      --paper: #f7f5ff;
-      --muted: #aaa6c5;
-
-      /* 主色：紫 
-    --vermillion:#b794ff;
-    --vermillion-dim:rgba(183,148,255,0.32);*/
-
-      --vermillion: #72beff;
-      --vermillion-dim: rgba(114, 168, 255, 0.28);
-
-      /* 輔色：粉藍 */
-      --jade: #ff9fde;
-      --jade-dim: rgba(255, 159, 207, 0.28);
-
-      /* 星圖選取色：星光白，比純金更貼近夜空氛圍 */
-      --star-active: #e6e2ff;
-      --star-active-dim: rgba(230, 226, 255, 0.35);
-
-      --font-display: 'Manrope', 'Noto Sans TC', sans-serif;
-      --font-body: 'Noto Sans TC', sans-serif;
-      --font-mono: 'IBM Plex Mono', monospace;
-    }
-
-    /*紫色
-  :root{
-    --ink-black:#09070f;
-    --panel: rgba(225,215,240,0.035);
-    --panel-2: rgba(225,215,240,0.06);
-    --line: rgba(210,198,235,0.12);
-    --line-strong: rgba(210,198,235,0.24);
-    --paper:#f5f2fb;
-    --muted:#a39bb2;
-    --vermillion:#c3a4f2;
-    --vermillion-dim: rgba(195,164,242,0.32);
-    --jade:#e0a3c4;
-    --jade-dim: rgba(224,163,196,0.28);
-    --font-display:'Manrope','Noto Sans TC',sans-serif;
-    --font-body:'Noto Sans TC',sans-serif;
-    --font-mono:'IBM Plex Mono',monospace;
-  }
-  */
-    * {
-      box-sizing: border-box;
-      max-width: 100%;
-    }
-
-    html {
-      overflow-x: hidden;
-    }
-
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-    }
-
-    /*body{
-    overflow-x:hidden;
-    background:
-	radial-gradient(
-            ellipse at 15% -5%,
-            rgba(183,148,255,0.22),
-            transparent 55%
-        ),
-        radial-gradient(
-            ellipse at 90% 15%,
-            rgba(90,180,255,0.18),
-            transparent 50%
-        ),
-        radial-gradient(
-            ellipse at 50% 100%,
-            rgba(255,159,207,0.15),
-            transparent 60%
-        ),
-	
-      radial-gradient(ellipse at 15% -5%, rgba(195,164,242,0.16), transparent 55%),
-      radial-gradient(ellipse at 90% 15%, rgba(224,163,196,0.12), transparent 50%),
-      radial-gradient(ellipse at 50% 100%, rgba(195,164,242,0.08), transparent 60%),
-	  
-      var(--ink-black);
-    background-attachment:fixed;
-    color:var(--paper);
-    font-family:var(--font-body);
-    min-height:100vh;
-    -webkit-tap-highlight-color:transparent;
-  }*/
-    body {
-      overflow-x: hidden;
-      background:
-        radial-gradient(ellipse at 15% -5%,
-          rgba(120, 140, 255, 0.28),
-          transparent 55%),
-        radial-gradient(ellipse at 90% 15%,
-          rgba(80, 120, 255, 0.22),
-          transparent 50%),
-        radial-gradient(ellipse at 50% 100%,
-          rgba(170, 100, 255, 0.18),
-          transparent 60%),
-        var(--ink-black);
-
-      background-attachment: fixed;
-      color: var(--paper);
-      font-family: var(--font-body);
-      min-height: 100vh;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.001ms !important;
-        transition-duration: 0.001ms !important;
-      }
-    }
-
-    ::selection {
-      background: var(--vermillion-dim);
-    }
-
-    .book {
-      position: relative;
-      z-index: 1;
-      max-width: 1080px;
-      margin: 20px auto;
-      padding: 0 16px;
-    }
-
-    .cover {
-      position: relative;
-      background: linear-gradient(180deg, rgba(220, 210, 235, 0.03), rgba(220, 210, 235, 0.015));
-      border: 1px solid var(--line-strong);
-      border-radius: 14px;
-      padding: 28px 30px 20px;
-    }
-
-    @media (max-width:640px) {
-      .cover {
-        padding: 20px 18px 16px;
-      }
-    }
-
-    .corner-mark {
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      pointer-events: none;
-    }
-
-    .corner-mark.tl {
-      top: -1px;
-      left: -1px;
-      border-top: 2px solid rgba(210, 190, 255, 0.4);
-      border-left: 2px solid rgba(210, 190, 255, 0.4);
-      border-radius: 8px 0 0 0;
-    }
-
-    .corner-mark.tr {
-      top: -1px;
-      right: -1px;
-      border-top: 2px solid rgba(210, 190, 255, 0.4);
-      border-right: 2px solid rgba(210, 190, 255, 0.4);
-      border-radius: 0 8px 0 0;
-    }
-
-    .corner-mark.bl {
-      bottom: -1px;
-      left: -1px;
-      border-bottom: 2px solid rgba(210, 190, 255, 0.4);
-      border-left: 2px solid rgba(210, 190, 255, 0.4);
-      border-radius: 0 0 0 8px;
-    }
-
-    .corner-mark.br {
-      bottom: -1px;
-      right: -1px;
-      border-bottom: 2px solid rgba(210, 190, 255, 0.4);
-      border-right: 2px solid rgba(210, 190, 255, 0.4);
-      border-radius: 0 0 8px 0;
-    }
-
-    .corner-mark .screw {
-      position: absolute;
-      width: 13px;
-      height: 13px;
-      overflow: visible;
-    }
-
-    .corner-mark.tl .screw {
-      top: -6px;
-      left: -6px;
-    }
-
-    .corner-mark.tr .screw {
-      top: -6px;
-      right: -6px;
-    }
-
-    .corner-mark.bl .screw {
-      bottom: -6px;
-      left: -6px;
-    }
-
-    .corner-mark.br .screw {
-      bottom: -6px;
-      right: -6px;
-    }
-
-    .screw-slot-dark {
-      stroke: rgba(5, 4, 10, 0.95);
-      stroke-width: 1.8;
-      stroke-linecap: round;
-    }
-
-    .screw-slot-light {
-      stroke: rgba(235, 232, 255, 0.6);
-      stroke-width: 0.7;
-      stroke-linecap: round;
-    }
-
-    @media (max-width:640px) {
-      .corner-mark {
-        width: 16px;
-        height: 16px;
-      }
-
-      .corner-mark .screw {
-        width: 11px;
-        height: 11px;
-      }
-    }
-
-    header.masthead {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 14px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid var(--line-strong);
-      margin-bottom: 20px;
-    }
-
-    .title-block h1 {
-      font-family: var(--font-display);
-      font-size: clamp(28px, 4.4vw, 44px);
-      font-weight: 800;
-      margin: 0 0 4px 0;
-      letter-spacing: 2px;
-    }
-
-    .title-block .role {
-      font-family: var(--font-mono);
-      font-size: 11.5px;
-      color: var(--vermillion);
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-    }
-
-    /* ===== Desktop tabs : wrap, never scroll ===== */
-    nav.tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px 6px;
-      margin-bottom: 26px;
-    }
-
-    nav.tabs button {
-      font-family: var(--font-mono);
-      font-size: 11.5px;
-      letter-spacing: 0.5px;
-      background: transparent;
-      border: none;
-      border-bottom: 2px solid transparent;
-      color: var(--muted);
-      padding: 9px 14px 11px;
-      cursor: pointer;
-      transition: color .2s ease, border-color .2s ease;
-    }
-
-    nav.tabs button .num {
-      color: var(--jade);
-      margin-right: 6px;
-    }
-
-    nav.tabs button:hover {
-      color: var(--paper);
-    }
-
-    nav.tabs button:focus-visible {
-      outline: 2px solid var(--vermillion);
-      outline-offset: 2px;
-    }
-
-    nav.tabs button.active {
-      color: var(--paper);
-      border-color: var(--vermillion);
-    }
-
-    /* ===== Mobile custom dropdown (fully themeable) ===== */
-    .page-dropdown {
-      display: none;
-      position: relative;
-      margin-bottom: 22px;
-    }
-
-    .page-dropdown-trigger {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--panel-2);
-      border: 1px solid var(--line-strong);
-      border-radius: 10px;
-      color: var(--paper);
-      font-family: var(--font-body);
-      font-size: 15px;
-      padding: 13px 16px;
-      cursor: pointer;
-    }
-
-    .page-dropdown-trigger .chevron {
-      width: 11px;
-      height: 11px;
-      border-right: 3px solid var(--vermillion);
-      border-bottom: 3px solid var(--vermillion);
-      transform: rotate(45deg);
-      margin-right: 5px;
-      margin-top: -6px;
-      flex-shrink: 0;
-      transition: transform .25s ease;
-    }
-
-    .page-dropdown.open .page-dropdown-trigger .chevron {
-      transform: rotate(225deg);
-      margin-top: 5px;
-    }
-
-    .page-dropdown-trigger:focus-visible {
-      outline: 2px solid var(--vermillion);
-      outline-offset: 2px;
-    }
-
-    .page-dropdown-list {
-      list-style: none;
-      margin: 6px 0 0 0;
-      padding: 6px;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      z-index: 20;
-      background: #0d0a15;
-      border: 1px solid var(--line-strong);
-      border-radius: 10px;
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      transition: max-height .28s ease, opacity .2s ease;
-    }
-
-    .page-dropdown.open .page-dropdown-list {
-      max-height: 400px;
-      opacity: 1;
-    }
-
-    .page-dropdown-list li {
-      padding: 12px 12px;
-      border-radius: 8px;
-      font-size: 14.5px;
-      color: var(--paper);
-      cursor: pointer;
-      transition: background .15s ease;
-    }
-
-    .page-dropdown-list li .num {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--jade);
-      margin-right: 10px;
-    }
-
-    .page-dropdown-list li:hover,
-    .page-dropdown-list li:active {
-      background: rgba(195, 164, 242, 0.12);
-    }
-
-    .page-dropdown-list li.current {
-      color: var(--vermillion);
-    }
-
-    @media (max-width:600px) {
-      nav.tabs {
-        display: none;
-      }
-
-      .page-dropdown {
-        display: block;
-      }
-    }
-
-    .sheet-window {
-      min-height: 400px;
-      position: relative;
-    }
-
-    .sheet {
-      display: none;
-    }
-
-    .sheet.active {
-      display: block;
-      animation: sheetIn .5s ease forwards;
-    }
-
-    @keyframes sheetIn {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    h2.sheet-title {
-      font-family: var(--font-display);
-      font-size: 23px;
-      font-weight: 700;
-      margin: 0 0 4px 0;
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-    }
-
-    h2.sheet-title .idx {
-      font-family: var(--font-mono);
-      color: var(--vermillion);
-      font-size: 12px;
-      font-weight: 400;
-    }
-
-    .sheet-sub {
-      color: var(--muted);
-      font-size: 12.5px;
-      margin-bottom: 26px;
-    }
-
-    /* ===== 01 Profile ===== */
-    .profile-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 32px;
-    }
-
-    @media (max-width:720px) {
-      .profile-grid {
-        grid-template-columns: 1fr;
-        gap: 22px;
-      }
-    }
-
-    .profile-lede {
-      font-size: 15.5px;
-      line-height: 2;
-    }
-
-    .profile-lede .accent {
-      color: var(--vermillion);
-      font-weight: 600;
-    }
-
-    .quick-facts {
-      border-left: 1px solid var(--line-strong);
-      padding-left: 24px;
-    }
-
-    @media (max-width:720px) {
-      .quick-facts {
-        border-left: none;
-        border-top: 1px solid var(--line-strong);
-        padding-left: 0;
-        padding-top: 18px;
-      }
-    }
-
-    .quick-facts dt {
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      color: var(--jade);
-      letter-spacing: 1px;
-      margin-top: 16px;
-    }
-
-    .quick-facts dt:first-child {
-      margin-top: 0;
-    }
-
-    .quick-facts dd {
-      margin: 4px 0 0 0;
-      font-size: 13.5px;
-    }
-
-    /* ===== 02 自傳 ===== */
-    .statement {
-      font-size: 14.5px;
-      line-height: 2.05;
-      /*max-width: 760px;*/
-    }
-
-    .statement p {
-      margin: 0 0 18px 0;
-    }
-
-    .statement .drop {
-      font-family: var(--font-display);
-      font-size: 46px;
-      float: left;
-      line-height: 0.75;
-      margin: 6px 8px 0 0;
-      color: var(--vermillion);
-      font-weight: 800;
-    }
-
-    /* ===== 03 技能 : star tree diagram ===== */
-    .skill-star-wrap {
-      display: flex;
-      justify-content: center;
-      margin: 4px 0 4px;
-    }
-
-    .skill-star {
-      width: 100%;
-      max-width: 640px;
-      height: auto;
-      overflow: visible;
-    }
-
-    @keyframes twinkle {
-
-      0%,
-      100% {
-        opacity: .10;
-      }
-
-      50% {
-        opacity: .55;
-      }
-    }
-
-    .skill-star .bg-star {
-      fill: var(--paper);
-      animation: twinkle 3.4s ease-in-out infinite;
-    }
-
-    .skill-star .spoke {
-      stroke: var(--line-strong);
-      stroke-width: 1.2;
-      transition: stroke .3s ease, stroke-width .3s ease;
-    }
-
-    .skill-star .spoke.active {
-      stroke: var(--star-active);
-      stroke-width: 1.8;
-      filter: drop-shadow(0 0 3px var(--star-active-dim));
-    }
-
-    .skill-star .hub-glow {
-      fill: var(--vermillion);
-      opacity: .14;
-      transform-box: fill-box;
-      transform-origin: center;
-      animation: hubPulse 2.8s ease-in-out infinite;
-    }
-
-    @keyframes hubPulse {
-
-      0%,
-      100% {
-        transform: scale(1);
-        opacity: .12;
-      }
-
-      50% {
-        transform: scale(1.18);
-        opacity: .26;
-      }
-    }
-
-    .skill-star .hub-circle {
-      fill: var(--panel-2);
-      stroke: var(--line-strong);
-      stroke-width: 1;
-    }
-
-    .skill-star .hub-label {
-      fill: var(--paper);
-      font-family: var(--font-mono);
-      font-size: 13px;
-      letter-spacing: 1.5px;
-      text-anchor: middle;
-      dominant-baseline: middle;
-    }
-
-    .skill-node {
-      cursor: pointer;
-    }
-
-    .skill-node .node-core {
-      fill: url(#nodeGlow);
-      stroke: var(--line-strong);
-      stroke-width: 2;
-      transition: stroke .3s ease, fill .3s ease;
-    }
-
-    .skill-node.active .node-core {
-      stroke: var(--star-active);
-      filter: drop-shadow(0 0 5px var(--star-active-dim)) drop-shadow(0 0 11px var(--star-active-dim));
-    }
-
-    .skill-node .node-icon {
-      stroke: var(--jade);
-      stroke-width: 1.6;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      fill: none;
-    }
-
-    .skill-node .node-icon .icon-dot {
-      fill: var(--jade);
-      stroke: none;
-    }
-
-    .skill-node .node-icon .icon-glyph {
-      fill: var(--jade);
-      stroke: none;
-      font-family: var(--font-mono);
-      font-weight: 700;
-      font-size: 13px;
-    }
-
-    .skill-node .node-label {
-      fill: #c7c2e8;
-      font-family: var(--font-display);
-      font-size: 13.5px;
-      font-weight: 700;
-      text-anchor: middle;
-      transition: fill .3s ease, transform .3s ease;
-      transform-box: fill-box;
-      transform-origin: center;
-    }
-
-    .skill-node.active .node-label {
-      fill: var(--paper);
-      filter: drop-shadow(0 0 4px var(--star-active-dim)) drop-shadow(0 0 8px var(--star-active-dim));
-      transform: scale(1.06);
-    }
-
-    .skill-node:focus-visible .node-core {
-      stroke: var(--star-active);
-      stroke-width: 3;
-    }
-
-    .skill-detail-list {
-      border-top: 1px solid var(--line-strong);
-      margin-top: 22px;
-      padding-top: 18px;
-      min-height: 110px;
-    }
-
-    .skill-detail-hint {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--muted);
-      text-align: center;
-      margin: 0;
-    }
-
-    .skill-detail-item {
-      display: none;
-    }
-
-    .skill-detail-item.active {
-      display: block;
-      animation: sheetIn .4s ease forwards;
-    }
-
-    .skill-detail-item h3 {
-      font-family: var(--font-display);
-      font-size: 17px;
-      margin: 0 0 12px 0;
-      font-weight: 700;
-    }
-
-    .skill-detail-item .prof-bar-label {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      color: var(--muted);
-      margin-bottom: 7px;
-    }
-
-    .skill-detail-item .prof-bar-label .prof-num {
-      color: var(--vermillion);
-      font-weight: 600;
-      font-size: 12px;
-    }
-
-    .skill-detail-item .prof-bar-track {
-      height: 8px;
-      border-radius: 6px;
-      background: var(--panel-2);
-      border: 1px solid var(--line-strong);
-      overflow: hidden;
-      margin-bottom: 16px;
-    }
-
-    .skill-detail-item .prof-bar-fill {
-      height: 100%;
-      width: 0%;
-      border-radius: 6px;
-      background: linear-gradient(90deg, var(--jade), var(--vermillion));
-      box-shadow: 0 0 10px var(--vermillion-dim);
-      transition: width 1s cubic-bezier(.22, .9, .32, 1);
-    }
-
-    .skill-detail-item .lvl {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .skill-detail-item p {
-      font-size: 13.5px;
-      line-height: 1.85;
-      margin: 0 0 10px 0;
-    }
-
-    .skill-detail-item .tag-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
-
-    .skill-detail-item .tag-row span {
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      border: 1px solid var(--line-strong);
-      padding: 3px 7px;
-      color: var(--muted);
-    }
-
-    @media (max-width:560px) {
-      .skill-star {
-        max-width: 420px;
-      }
-    }
-
-    /* ===== 04 證照 : stamped cert cards ===== */
-    .cert-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 16px;
-    }
-
-    .cert-card {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--line-strong);
-      border-radius: 10px;
-      background: linear-gradient(160deg, rgba(220, 210, 235, 0.05), rgba(220, 210, 235, 0.02));
-      padding: 20px 88px 20px 20px;
-      transition: transform .2s ease, border-color .2s ease;
-    }
-
-    .cert-card:hover {
-      transform: translateY(-3px);
-      border-color: var(--vermillion);
-    }
-
-    .cert-card::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: linear-gradient(180deg, var(--vermillion), var(--jade));
-    }
-
-    .cert-card .cert-year {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--jade);
-      letter-spacing: 1px;
-    }
-
-    .cert-card h3 {
-      font-family: var(--font-display);
-      font-size: 16.5px;
-      margin: 6px 0 4px 0;
-      font-weight: 700;
-    }
-
-    .cert-card .cert-org {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .cert-card .cert-stamp {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      border: 4px solid var(--vermillion);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-family: var(--font-mono);
-      font-size: 9.5px;
-      line-height: 1.4;
-      letter-spacing: 0.5px;
-      color: var(--vermillion);
-      background: rgba(114, 168, 255, 0.08);
-      transform: rotate(-10deg);
-    }
-
-    .cert-card .cert-stamp span {
-      display: block;
-    }
-
-    @media (max-width:480px) {
-      .cert-card {
-        padding: 18px 74px 18px 18px;
-      }
-
-      .cert-card .cert-stamp {
-        width: 48px;
-        height: 48px;
-        font-size: 8px;
-        top: 14px;
-        right: 14px;
-      }
-    }
-
-    /* ===== 05 經歷 ===== */
-    .timeline {
-      position: relative;
-      padding-left: 26px;
-    }
-
-    .timeline::before {
-      content: "";
-      position: absolute;
-      left: 5px;
-      top: 6px;
-      bottom: 6px;
-      width: 1px;
-      background: var(--line-strong);
-    }
-
-    .tl-item {
-      position: relative;
-      padding-bottom: 30px;
-    }
-
-    .tl-item::before {
-      content: "";
-      position: absolute;
-      left: -26px;
-      top: 4px;
-      width: 9px;
-      height: 9px;
-      background: var(--vermillion);
-    }
-
-    .tl-item .tl-date {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--vermillion);
-      letter-spacing: 1px;
-    }
-
-    .tl-item h3 {
-      font-family: var(--font-display);
-      font-size: 17.5px;
-      margin: 6px 0 3px 0;
-      font-weight: 700;
-    }
-
-    .tl-item .tl-role {
-      color: var(--muted);
-      font-size: 12.5px;
-      margin-bottom: 8px;
-    }
-
-    .tl-item ul {
-      margin: 0;
-      padding-left: 18px;
-      font-size: 13.5px;
-      line-height: 1.9;
-    }
-
-    /* ===== 06 專案 ===== */
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      border: 1px solid var(--line-strong);
-      background: rgba(220, 210, 235, 0.03);
-      padding: 18px;
-      border-radius: 10px;
-      transition: transform .2s ease, border-color .2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      border-color: var(--vermillion);
-    }
-
-    .card .tag {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--jade);
-      letter-spacing: 1px;
-    }
-
-    .card h3 {
-      font-family: var(--font-display);
-      font-size: 16.5px;
-      margin: 8px 0 6px 0;
-      font-weight: 700;
-    }
-
-    .card p {
-      font-size: 12.5px;
-      color: var(--muted);
-      line-height: 1.75;
-      margin: 0 0 10px 0;
-    }
-
-    .card .stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .card .stack span {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      border: 1px solid var(--line-strong);
-      padding: 2px 6px;
-      color: var(--muted);
-    }
-
-    /* ===== 07 聯絡 ===== */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 14px;
-    }
-
-    .contact-card {
-      border: 1px solid var(--line-strong);
-      padding: 18px;
-      text-decoration: none;
-      color: var(--paper);
-      display: block;
-      background: rgba(220, 210, 235, 0.03);
-      border-radius: 10px;
-      transition: border-color .2s ease;
-    }
-
-    .contact-card:hover {
-      border-color: var(--vermillion);
-    }
-
-    .contact-card .k {
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      color: var(--jade);
-      letter-spacing: 1px;
-    }
-
-    .contact-card .v {
-      font-family: var(--font-display);
-      font-size: 16px;
-      margin-top: 6px;
-      word-break: break-all;
-      font-weight: 700;
-    }
-
-    footer.paginator {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 28px;
-      padding-top: 16px;
-      border-top: 1px solid var(--line-strong);
-      font-family: var(--font-mono);
-      font-size: 11.5px;
-      color: var(--muted);
-    }
-
-    .paginator-mid {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .paginator .dots {
-      display: flex;
-      gap: 6px;
-    }
-
-    .paginator .dots span {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--line-strong);
-      transition: background .2s ease;
-    }
-
-    .paginator .dots span.active {
-      background: var(--vermillion);
-    }
-
-    .paginator button {
-      background: transparent;
-      border: 1px solid var(--line-strong);
-      color: var(--paper);
-      width: 34px;
-      height: 34px;
-      cursor: pointer;
-      font-size: 14px;
-      border-radius: 8px;
-      transition: border-color .2s ease, color .2s ease;
-    }
-
-    .paginator button:hover:not(:disabled) {
-      border-color: var(--vermillion);
-      color: var(--vermillion);
-    }
-
-    .paginator button:disabled {
-      opacity: 0.3;
-      cursor: default;
-    }
-
-    .paginator button:focus-visible {
-      outline: 2px solid var(--vermillion);
-      outline-offset: 2px;
-    }
-
-    .sheet-count span {
-      color: var(--vermillion);
-    }
-
-    @media (max-width:600px) {
-      .sheet-count {
-        display: none;
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="book">
-    <div class="cover">
-      <span class="corner-mark tl" aria-hidden="true">
-        <svg class="screw" viewBox="0 0 14 14">
-          <defs>
-            <radialGradient id="screwGrad-tl" cx="35%" cy="30%" r="75%">
-              <stop offset="0%" stop-color="#4a4478" />
-              <stop offset="55%" stop-color="#211c3a" />
-              <stop offset="100%" stop-color="#0c0a14" />
-            </radialGradient>
-          </defs>
-          <circle cx="7" cy="7" r="6" fill="url(#screwGrad-tl)" stroke="rgba(210,190,255,0.55)" stroke-width="0.8" />
-          <line class="screw-slot-dark" x1="7" y1="3" x2="7" y2="11" />
-          <line class="screw-slot-dark" x1="3" y1="7" x2="11" y2="7" />
-          <line class="screw-slot-light" x1="6.3" y1="3" x2="6.3" y2="11" />
-          <line class="screw-slot-light" x1="3" y1="6.3" x2="11" y2="6.3" />
-        </svg>
-      </span>
-      <span class="corner-mark tr" aria-hidden="true">
-        <svg class="screw" viewBox="0 0 14 14">
-          <defs>
-            <radialGradient id="screwGrad-tr" cx="35%" cy="30%" r="75%">
-              <stop offset="0%" stop-color="#4a4478" />
-              <stop offset="55%" stop-color="#211c3a" />
-              <stop offset="100%" stop-color="#0c0a14" />
-            </radialGradient>
-          </defs>
-          <circle cx="7" cy="7" r="6" fill="url(#screwGrad-tr)" stroke="rgba(210,190,255,0.55)" stroke-width="0.8" />
-          <line class="screw-slot-dark" x1="7" y1="3" x2="7" y2="11" />
-          <line class="screw-slot-dark" x1="3" y1="7" x2="11" y2="7" />
-          <line class="screw-slot-light" x1="6.3" y1="3" x2="6.3" y2="11" />
-          <line class="screw-slot-light" x1="3" y1="6.3" x2="11" y2="6.3" />
-        </svg>
-      </span>
-      <span class="corner-mark bl" aria-hidden="true">
-        <svg class="screw" viewBox="0 0 14 14">
-          <defs>
-            <radialGradient id="screwGrad-bl" cx="35%" cy="30%" r="75%">
-              <stop offset="0%" stop-color="#4a4478" />
-              <stop offset="55%" stop-color="#211c3a" />
-              <stop offset="100%" stop-color="#0c0a14" />
-            </radialGradient>
-          </defs>
-          <circle cx="7" cy="7" r="6" fill="url(#screwGrad-bl)" stroke="rgba(210,190,255,0.55)" stroke-width="0.8" />
-          <line class="screw-slot-dark" x1="7" y1="3" x2="7" y2="11" />
-          <line class="screw-slot-dark" x1="3" y1="7" x2="11" y2="7" />
-          <line class="screw-slot-light" x1="6.3" y1="3" x2="6.3" y2="11" />
-          <line class="screw-slot-light" x1="3" y1="6.3" x2="11" y2="6.3" />
-        </svg>
-      </span>
-      <span class="corner-mark br" aria-hidden="true">
-        <svg class="screw" viewBox="0 0 14 14">
-          <defs>
-            <radialGradient id="screwGrad-br" cx="35%" cy="30%" r="75%">
-              <stop offset="0%" stop-color="#4a4478" />
-              <stop offset="55%" stop-color="#211c3a" />
-              <stop offset="100%" stop-color="#0c0a14" />
-            </radialGradient>
-          </defs>
-          <circle cx="7" cy="7" r="6" fill="url(#screwGrad-br)" stroke="rgba(210,190,255,0.55)" stroke-width="0.8" />
-          <line class="screw-slot-dark" x1="7" y1="3" x2="7" y2="11" />
-          <line class="screw-slot-dark" x1="3" y1="7" x2="11" y2="7" />
-          <line class="screw-slot-light" x1="6.3" y1="3" x2="6.3" y2="11" />
-          <line class="screw-slot-light" x1="3" y1="6.3" x2="11" y2="6.3" />
-        </svg>
-      </span>
-
-      <header class="masthead">
-        <div class="title-block">
-          <h1>莊 芳 綺</h1>
-          <div class="role">網站程式設計師 ASP.NET</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>莊芳綺 | ASP.NET 網站程式設計師</title>
+    <meta name="description" content="莊芳綺的個人履歷：ASP.NET、C#、網站系統開發經驗與專案作品。" />
+
+    <link rel="icon" href="favicon.png" type="image/png" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="莊芳綺 | ASP.NET 網站程式設計師" />
+    <meta property="og:description" content="個人履歷與專案作品" />
+    <!-- <meta property="og:image" content="https://你的網域/preview.jpg" /> -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <div class="book">
+      <div class="cover">
+        <span class="corner-mark tl" aria-hidden="true">
+          <svg class="screw" viewBox="0 0 14 14">
+            <defs>
+              <radialGradient id="screwGrad-tl" cx="35%" cy="30%" r="75%">
+                <stop offset="0%" stop-color="#4a4478" />
+                <stop offset="55%" stop-color="#211c3a" />
+                <stop offset="100%" stop-color="#0c0a14" />
+              </radialGradient>
+            </defs>
+            <circle
+              cx="7"
+              cy="7"
+              r="6"
+              fill="url(#screwGrad-tl)"
+              stroke="rgba(210,190,255,0.55)"
+              stroke-width="0.8"
+            />
+            <line class="screw-slot-dark" x1="7" y1="3" x2="7" y2="11" />
+            <line class="screw-slot-dark" x1="3" y1="7" x2="11" y2="7" />
+            <line class="screw-slot-light" x1="6.3" y1="3" x2="6.3" y2="11" />
+            <line class="screw-slot-light" x1="3" y1="6.3" x2="11" y2="6.3" />
+          </svg>
+        </span>
+        <span class="corner-mark tr" aria-hidden="true">
+          <svg class="screw" viewBox="0 0 14 14">
+            <defs>
+              <radialGradient id="screwGrad-tr" cx="35%" cy="30%" r="75%">
+                <stop offset="0%" stop-color="#4a4478" />
+                <stop offset="55%" stop-color="#211c3a" />
+                <stop offset="100%" stop-color="#0c0a14" />
+              </radialGradient>
+            </defs>
+            <circle
+              cx="7"
+              cy="7"
+              r="6"
+              fill="url(#screwGrad-tr)"
+              stroke="rgba(210,190,255,0.55)"
+              stroke-width="0.8"
+            />
+            <line class="screw-slot-dark" x1="7" y1="3" x2="7" y2="11" />
+            <line class="screw-slot-dark" x1="3" y1="7" x2="11" y2="7" />
+            <line class="screw-slot-light" x1="6.3" y1="3" x2="6.3" y2="11" />
+            <line class="screw-slot-light" x1="3" y1="6.3" x2="11" y2="6.3" />
+          </svg>
+        </span>
+        <span class="corner-mark bl" aria-hidden="true">
+          <svg class="screw" viewBox="0 0 14 14">
+            <defs>
+              <radialGradient id="screwGrad-bl" cx="35%" cy="30%" r="75%">
+                <stop offset="0%" stop-color="#4a4478" />
+                <stop offset="55%" stop-color="#211c3a" />
+                <stop offset="100%" stop-color="#0c0a14" />
+              </radialGradient>
+            </defs>
+            <circle
+              cx="7"
+              cy="7"
+              r="6"
+              fill="url(#screwGrad-bl)"
+              stroke="rgba(210,190,255,0.55)"
+              stroke-width="0.8"
+            />
+            <line class="screw-slot-dark" x1="7" y1="3" x2="7" y2="11" />
+            <line class="screw-slot-dark" x1="3" y1="7" x2="11" y2="7" />
+            <line class="screw-slot-light" x1="6.3" y1="3" x2="6.3" y2="11" />
+            <line class="screw-slot-light" x1="3" y1="6.3" x2="11" y2="6.3" />
+          </svg>
+        </span>
+        <span class="corner-mark br" aria-hidden="true">
+          <svg class="screw" viewBox="0 0 14 14">
+            <defs>
+              <radialGradient id="screwGrad-br" cx="35%" cy="30%" r="75%">
+                <stop offset="0%" stop-color="#4a4478" />
+                <stop offset="55%" stop-color="#211c3a" />
+                <stop offset="100%" stop-color="#0c0a14" />
+              </radialGradient>
+            </defs>
+            <circle
+              cx="7"
+              cy="7"
+              r="6"
+              fill="url(#screwGrad-br)"
+              stroke="rgba(210,190,255,0.55)"
+              stroke-width="0.8"
+            />
+            <line class="screw-slot-dark" x1="7" y1="3" x2="7" y2="11" />
+            <line class="screw-slot-dark" x1="3" y1="7" x2="11" y2="7" />
+            <line class="screw-slot-light" x1="6.3" y1="3" x2="6.3" y2="11" />
+            <line class="screw-slot-light" x1="3" y1="6.3" x2="11" y2="6.3" />
+          </svg>
+        </span>
+
+        <header class="masthead">
+          <div class="title-block">
+            <h1>莊 芳 綺</h1>
+            <div class="role">網站程式設計師 ASP.NET</div>
+          </div>
+        </header>
+
+        <nav class="tabs" role="tablist" aria-label="履歷分頁">
+          <button class="active" data-page="0">
+            <span class="num">01</span>個人簡介
+          </button>
+          <button data-page="1"><span class="num">02</span>自傳</button>
+          <button data-page="2"><span class="num">03</span>技能</button>
+          <button data-page="3"><span class="num">04</span>證照</button>
+          <button data-page="4"><span class="num">05</span>經歷</button>
+          <button data-page="5"><span class="num">06</span>專案</button>
+          <button data-page="6"><span class="num">07</span>聯絡</button>
+        </nav>
+
+        <div class="page-dropdown" id="pageDropdown">
+          <button
+            class="page-dropdown-trigger"
+            id="pageDropdownTrigger"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+          >
+            <span id="pageDropdownLabel">01 · 個人簡介</span>
+            <span class="chevron"></span>
+          </button>
+          <ul class="page-dropdown-list" id="pageDropdownList" role="listbox">
+            <li
+              role="option"
+              data-page="0"
+              data-label="01 · 個人簡介"
+              class="current"
+            >
+              <span class="num">01</span>個人簡介
+            </li>
+            <li role="option" data-page="1" data-label="02 · 自傳">
+              <span class="num">02</span>自傳
+            </li>
+            <li role="option" data-page="2" data-label="03 · 技能">
+              <span class="num">03</span>技能
+            </li>
+            <li role="option" data-page="3" data-label="04 · 證照">
+              <span class="num">04</span>證照
+            </li>
+            <li role="option" data-page="4" data-label="05 · 經歷">
+              <span class="num">05</span>經歷
+            </li>
+            <li role="option" data-page="5" data-label="06 · 專案">
+              <span class="num">06</span>專案
+            </li>
+            <li role="option" data-page="6" data-label="07 · 聯絡">
+              <span class="num">07</span>聯絡
+            </li>
+          </ul>
         </div>
-      </header>
 
-      <nav class="tabs" role="tablist" aria-label="履歷分頁">
-        <button class="active" data-page="0"><span class="num">01</span>個人簡介</button>
-        <button data-page="1"><span class="num">02</span>自傳</button>
-        <button data-page="2"><span class="num">03</span>技能</button>
-        <button data-page="3"><span class="num">04</span>證照</button>
-        <button data-page="4"><span class="num">05</span>經歷</button>
-        <button data-page="5"><span class="num">06</span>專案</button>
-        <button data-page="6"><span class="num">07</span>聯絡</button>
-      </nav>
-
-      <div class="page-dropdown" id="pageDropdown">
-        <button class="page-dropdown-trigger" id="pageDropdownTrigger" aria-haspopup="listbox" aria-expanded="false">
-          <span id="pageDropdownLabel">01 · 個人簡介</span>
-          <span class="chevron"></span>
-        </button>
-        <ul class="page-dropdown-list" id="pageDropdownList" role="listbox">
-          <li role="option" data-page="0" data-label="01 · 個人簡介" class="current"><span class="num">01</span>個人簡介</li>
-          <li role="option" data-page="1" data-label="02 · 自傳"><span class="num">02</span>自傳</li>
-          <li role="option" data-page="2" data-label="03 · 技能"><span class="num">03</span>技能</li>
-          <li role="option" data-page="3" data-label="04 · 證照"><span class="num">04</span>證照</li>
-          <li role="option" data-page="4" data-label="05 · 經歷"><span class="num">05</span>經歷</li>
-          <li role="option" data-page="5" data-label="06 · 專案"><span class="num">06</span>專案</li>
-          <li role="option" data-page="6" data-label="07 · 聯絡"><span class="num">07</span>聯絡</li>
-        </ul>
-      </div>
-
-      <div class="sheet-window">
-
-        <!-- 01 -->
-        <section class="sheet active" data-index="0">
-          <h2 class="sheet-title"><span class="idx">01</span>個人簡介</h2>
-          <p class="sheet-sub"></p>
-          <div class="profile-grid">
-            <div>
-              <p class="profile-lede"> 一年多網站程式開發經驗，主要使用 <span class="accent">ASP.NET MVC</span>、
-                <span class="accent">C#</span> 與 <span class="accent">MS SQL Server</span>
-                進行網站前後端開發與系統維護，熟悉 API 串接、資料庫操作及自動化程式開發。 也具備
-                <span class="accent">Python</span>、Selenium、Puppeteer、Playwright 等爬蟲與自動化開發經驗， 能從需求分析、功能實作到問題排查，主動研究並找出適合的解決方案。
-              </p>
+        <div class="sheet-window">
+          <!-- 01 -->
+          <section class="sheet active" data-index="0">
+            <h2 class="sheet-title"><span class="idx">01</span>個人簡介</h2>
+            <p class="sheet-sub"></p>
+            <div class="profile-grid">
+              <div>
+                <p class="profile-lede">
+                  一年多網站程式開發經驗，主要使用
+                  <span class="accent">ASP.NET MVC</span>、
+                  <span class="accent">C#</span> 與
+                  <span class="accent">MS SQL Server</span>
+                  進行網站前後端開發與系統維護，熟悉 API
+                  串接、資料庫操作及自動化程式開發。 也具備
+                  <span class="accent">Python</span
+                  >、Selenium、Puppeteer、Playwright 等爬蟲與自動化開發經驗，
+                  能從需求分析、功能實作到問題排查，主動研究並找出適合的解決方案。
+                </p>
+              </div>
+              <div class="quick-facts">
+                <dl>
+                  <dt>所在地</dt>
+                  <dd>高雄, 台灣</dd>
+                  <dt>主要技術</dt>
+                  <dd>C# · ASP.NET MVC · Python · MS SQL</dd>
+                  <dt>擅長領域</dt>
+                  <dd>網站開發、API 串接、系統除錯</dd>
+                  <dt>工作型態</dt>
+                  <dd>正職</dd>
+                </dl>
+              </div>
             </div>
-            <div class="quick-facts">
-              <dl>
-                <dt>所在地</dt>
-                <dd>高雄, 台灣</dd>
-                <dt>主要技術</dt>
-                <dd>C# · ASP.NET MVC · Python · MS SQL</dd>
-                <dt>擅長領域</dt>
-                <dd>網站開發、API 串接、系統除錯</dd>
-                <dt>工作型態</dt>
-                <dd>正職</dd>
-              </dl>
-            </div>
-          </div>
-        </section>
+          </section>
 
-        <!-- 02 自傳 -->
-        <section class="sheet" data-index="1">
-          <h2 class="sheet-title"><span class="idx">02</span>自傳</h2>
-          <p class="sheet-sub">從學習與工作經驗中累積實作能力，持續精進程式開發與問題解決能力</p>
-          <div class="statement">
-            <p>
-              <span class="drop">我</span>畢業於高雄科技大學機械工程系智能系統與控制組，
-              大學期間接觸程式設計與實作，並在「藍芽遠端遙控電風扇」專題中，
-              結合 3D 列印、Arduino、電路設計及簡易 App 開發，從實作與除錯過程中培養問題分析及團隊合作能力，
-              也因此對程式設計產生興趣。
+          <!-- 02 自傳 -->
+          <section class="sheet" data-index="1">
+            <h2 class="sheet-title"><span class="idx">02</span>自傳</h2>
+            <p class="sheet-sub">
+              從學習與工作經驗中累積實作能力，持續精進程式開發與問題解決能力
             </p>
+            <div class="statement">
+              <p>
+                <span class="drop">我</span
+                >畢業於高雄科技大學機械工程系智能系統與控制組，
+                大學期間接觸程式設計與實作，並在「藍芽遠端遙控電風扇」專題中，
+                結合 3D 列印、Arduino、電路設計及簡易 App
+                開發，從實作與除錯過程中培養問題分析及團隊合作能力，
+                也因此對程式設計產生興趣。
+              </p>
 
-            <p>
-              畢業後參加產業新尖兵網站程式開發培訓，學習 PHP、Laravel 及 MySQL，
-              透過實際專案建立網站開發與資料庫操作基礎，並取得 TQC MySQL5 認證，
-              進一步確立投入軟體開發領域的方向。
-            </p>
+              <p>
+                畢業後參加產業新尖兵網站程式開發培訓，學習 PHP、Laravel 及
+                MySQL， 透過實際專案建立網站開發與資料庫操作基礎，並取得 TQC
+                MySQL5 認證， 進一步確立投入軟體開發領域的方向。
+              </p>
 
-            <p>
-              進入職場後，主要擔任網站程式工程師，使用 ASP.NET MVC、C# 及 MS SQL Server
-              進行網站開發與系統維護，並參與 LINE Messaging API、藍新金流及 Google Apps Script 等服務整合。
-              同時使用 Windows 工作排程器執行 Python 程式，並參與房地產網站爬蟲開發，
-              累積 API 串接、資料處理、資料庫操作及自動化等實務經驗。
-            </p>
+              <p>
+                進入職場後，主要擔任網站程式工程師，使用 ASP.NET MVC、C# 及 MS
+                SQL Server 進行網站開發與系統維護，並參與 LINE Messaging
+                API、藍新金流及 Google Apps Script 等服務整合。 同時使用 Windows
+                工作排程器執行 Python 程式，並參與房地產網站爬蟲開發， 累積 API
+                串接、資料處理、資料庫操作及自動化等實務經驗。
+              </p>
 
-            <p>
-              面對不熟悉的技術或開發問題，我習慣主動研究、測試與分析，找出適合的解決方式。
-              未來希望持續提升後端開發、API 整合、資料庫及自動化能力，
-              並進一步學習系統架構與雲端技術，持續累積實務經驗，為團隊與公司創造實際價值。
-            </p>
-          </div>
-        </section>
+              <p>
+                面對不熟悉的技術或開發問題，我習慣主動研究、測試與分析，找出適合的解決方式。
+                未來希望持續提升後端開發、API 整合、資料庫及自動化能力，
+                並進一步學習系統架構與雲端技術，持續累積實務經驗，為團隊與公司創造實際價值。
+              </p>
+            </div>
+          </section>
 
+          <!-- 03 技能 -->
+          <section class="sheet" data-index="2">
+            <h2 class="sheet-title"><span class="idx">03</span>技能</h2>
+            <p class="sheet-sub">點選查看熟練度與相關經驗</p>
 
+            <div class="skill-star-wrap">
+              <svg
+                class="skill-star"
+                viewBox="0 0 600 450"
+                role="img"
+                aria-label="技能星形樹狀圖"
+              >
+                <defs>
+                  <radialGradient id="nodeGlow" cx="35%" cy="30%" r="75%">
+                    <stop offset="0%" stop-color="#2b2657" />
+                    <stop offset="100%" stop-color="#0d0a15" />
+                  </radialGradient>
+                </defs>
 
-        <!-- 03 技能 -->
-        <section class="sheet" data-index="2">
-          <h2 class="sheet-title"><span class="idx">03</span>技能</h2>
-          <p class="sheet-sub">點選查看熟練度與相關經驗</p>
+                <defs>
+                  <radialGradient id="nodeFill" cx="35%" cy="30%" r="75%">
+                    <stop offset="0%" stop-color="#241c3a" />
+                    <stop offset="100%" stop-color="#0d0a15" />
+                  </radialGradient>
+                </defs>
 
-          <div class="skill-star-wrap">
-            <svg class="skill-star" viewBox="0 0 600 450" role="img" aria-label="技能星形樹狀圖">
-              <defs>
-                <radialGradient id="nodeGlow" cx="35%" cy="30%" r="75%">
-                  <stop offset="0%" stop-color="#2b2657" />
-                  <stop offset="100%" stop-color="#0d0a15" />
-                </radialGradient>
-              </defs>
-
-              <defs>
-                <radialGradient id="nodeFill" cx="35%" cy="30%" r="75%">
-                  <stop offset="0%" stop-color="#241c3a" />
-                  <stop offset="100%" stop-color="#0d0a15" />
-                </radialGradient>
-              </defs>
-
-              <!-- 背景星點 -->
-              <g class="bg-stars">
-                <circle class="bg-star" cx="60" cy="50" r="1.6" style="animation-delay:.2s" />
-                <circle class="bg-star" cx="540" cy="45" r="1.3" style="animation-delay:.9s" />
-                <circle class="bg-star" cx="25" cy="220" r="1.4" style="animation-delay:1.4s" />
-                <circle class="bg-star" cx="575" cy="240" r="1.6" style="animation-delay:.5s" />
-                <circle class="bg-star" cx="80" cy="400" r="1.3" style="animation-delay:1.8s" />
-                <circle class="bg-star" cx="520" cy="410" r="1.5" style="animation-delay:1.1s" />
-                <circle class="bg-star" cx="300" cy="15" r="1.3" style="animation-delay:2.2s" />
-                <circle class="bg-star" cx="170" cy="430" r="1.4" style="animation-delay:.7s" />
-                <circle class="bg-star" cx="430" cy="430" r="1.3" style="animation-delay:1.6s" />
-              </g>
-
-              <!-- 中心到各節點的連線 -->
-              <g class="spokes">
-                <line class="spoke" data-skill="backend" x1="300" y1="216" x2="300" y2="135" />
-                <line class="spoke" data-skill="database" x1="332.3" y1="239.5" x2="409.325" y2="214.425" />
-                <line class="spoke" data-skill="scraping" x1="320.0" y1="277.5" x2="367.6" y2="343.075" />
-                <line class="spoke" data-skill="automation" x1="280.0" y1="277.5" x2="232.4" y2="343.075" />
-                <line class="spoke" data-skill="api" x1="267.7" y1="239.5" x2="190.675" y2="214.425" />
-              </g>
-
-              <!-- 中心節點 -->
-              <g class="hub">
-                <circle class="hub-glow" cx="300" cy="250" r="40" />
-                <circle class="hub-circle" cx="300" cy="250" r="34" />
-                <text class="hub-label" x="300" y="250">技能</text>
-              </g>
-
-              <!-- 01 後端開發 -->
-              <g class="skill-node" data-skill="backend" tabindex="0" role="button" aria-expanded="false"
-                aria-label="後端開發">
-                <circle class="node-core" cx="300" cy="110" r="25" />
-                <g class="node-icon" transform="translate(300,110)">
-                  <path d="M-3,-7 L-9,0 L-3,7" />
-                  <path d="M3,-7 L9,0 L3,7" />
-                  <line x1="1.5" y1="-7.5" x2="-1.5" y2="7.5" />
+                <!-- 背景星點 -->
+                <g class="bg-stars">
+                  <circle
+                    class="bg-star"
+                    cx="60"
+                    cy="50"
+                    r="1.6"
+                    style="animation-delay: 0.2s"
+                  />
+                  <circle
+                    class="bg-star"
+                    cx="540"
+                    cy="45"
+                    r="1.3"
+                    style="animation-delay: 0.9s"
+                  />
+                  <circle
+                    class="bg-star"
+                    cx="25"
+                    cy="220"
+                    r="1.4"
+                    style="animation-delay: 1.4s"
+                  />
+                  <circle
+                    class="bg-star"
+                    cx="575"
+                    cy="240"
+                    r="1.6"
+                    style="animation-delay: 0.5s"
+                  />
+                  <circle
+                    class="bg-star"
+                    cx="80"
+                    cy="400"
+                    r="1.3"
+                    style="animation-delay: 1.8s"
+                  />
+                  <circle
+                    class="bg-star"
+                    cx="520"
+                    cy="410"
+                    r="1.5"
+                    style="animation-delay: 1.1s"
+                  />
+                  <circle
+                    class="bg-star"
+                    cx="300"
+                    cy="15"
+                    r="1.3"
+                    style="animation-delay: 2.2s"
+                  />
+                  <circle
+                    class="bg-star"
+                    cx="170"
+                    cy="430"
+                    r="1.4"
+                    style="animation-delay: 0.7s"
+                  />
+                  <circle
+                    class="bg-star"
+                    cx="430"
+                    cy="430"
+                    r="1.3"
+                    style="animation-delay: 1.6s"
+                  />
                 </g>
-                <text class="node-label" x="300" y="68">後端開發</text>
-              </g>
 
-              <!-- 02 資料庫 -->
-              <g class="skill-node" data-skill="database" tabindex="0" role="button" aria-expanded="false"
-                aria-label="資料庫">
-                <circle class="node-core" cx="433.1" cy="206.7" r="25" />
-                <g class="node-icon" transform="translate(433.1,206.7)">
-                  <ellipse cx="0" cy="-6" rx="8" ry="3.5" />
-                  <path d="M-8,-6 V6 C-8,10 8,10 8,6 V-6" />
-                  <path d="M-8,0 C-8,4 8,4 8,0" />
+                <!-- 中心到各節點的連線 -->
+                <g class="spokes">
+                  <line
+                    class="spoke"
+                    data-skill="backend"
+                    x1="300"
+                    y1="216"
+                    x2="300"
+                    y2="135"
+                  />
+                  <line
+                    class="spoke"
+                    data-skill="database"
+                    x1="332.3"
+                    y1="239.5"
+                    x2="409.325"
+                    y2="214.425"
+                  />
+                  <line
+                    class="spoke"
+                    data-skill="scraping"
+                    x1="320.0"
+                    y1="277.5"
+                    x2="367.6"
+                    y2="343.075"
+                  />
+                  <line
+                    class="spoke"
+                    data-skill="automation"
+                    x1="280.0"
+                    y1="277.5"
+                    x2="232.4"
+                    y2="343.075"
+                  />
+                  <line
+                    class="spoke"
+                    data-skill="api"
+                    x1="267.7"
+                    y1="239.5"
+                    x2="190.675"
+                    y2="214.425"
+                  />
                 </g>
-                <text class="node-label" x="433.1" y="261.7">資料庫</text>
-              </g>
 
-              <!-- 03 爬蟲開發 -->
-              <g class="skill-node" data-skill="scraping" tabindex="0" role="button" aria-expanded="false"
-                aria-label="爬蟲開發">
-                <circle class="node-core" cx="382.3" cy="363.3" r="25" />
-                <g class="node-icon" transform="translate(382.3,363.3)">
-                  <circle cx="0" cy="0" r="8" />
-                  <circle class="icon-dot" cx="-3" cy="-2" r="1" />
-                  <circle class="icon-dot" cx="3" cy="-2" r="1" />
-                  <path d="M-4,3 Q0,6 4,3" />
+                <!-- 中心節點 -->
+                <g class="hub">
+                  <circle class="hub-glow" cx="300" cy="250" r="40" />
+                  <circle class="hub-circle" cx="300" cy="250" r="34" />
+                  <text class="hub-label" x="300" y="250">技能</text>
                 </g>
-                <text class="node-label" x="382.3" y="418.3">爬蟲開發</text>
-              </g>
 
-              <!-- 04 自動化 -->
-              <g class="skill-node" data-skill="automation" tabindex="0" role="button" aria-expanded="false"
-                aria-label="自動化">
-                <circle class="node-core" cx="217.7" cy="363.3" r="25" />
-                <g class="node-icon" transform="translate(217.7,363.3)">
-                  <circle cx="0" cy="0" r="5" />
-                  <circle cx="0" cy="0" r="1.8" />
-                  <line x1="5" y1="0" x2="8.5" y2="0" />
-                  <line x1="3.54" y1="3.54" x2="6.01" y2="6.01" />
-                  <line x1="0" y1="5" x2="0" y2="8.5" />
-                  <line x1="-3.54" y1="3.54" x2="-6.01" y2="6.01" />
-                  <line x1="-5" y1="0" x2="-8.5" y2="0" />
-                  <line x1="-3.54" y1="-3.54" x2="-6.01" y2="-6.01" />
-                  <line x1="0" y1="-5" x2="0" y2="-8.5" />
-                  <line x1="3.54" y1="-3.54" x2="6.01" y2="-6.01" />
+                <!-- 01 後端開發 -->
+                <g
+                  class="skill-node"
+                  data-skill="backend"
+                  tabindex="0"
+                  role="button"
+                  aria-expanded="false"
+                  aria-label="後端開發"
+                >
+                  <circle class="node-core" cx="300" cy="110" r="25" />
+                  <g class="node-icon" transform="translate(300,110)">
+                    <path d="M-3,-7 L-9,0 L-3,7" />
+                    <path d="M3,-7 L9,0 L3,7" />
+                    <line x1="1.5" y1="-7.5" x2="-1.5" y2="7.5" />
+                  </g>
+                  <text class="node-label" x="300" y="68">後端開發</text>
                 </g>
-                <text class="node-label" x="217.7" y="418.3">自動化</text>
-              </g>
 
-              <!-- 05 API 整合 -->
-              <g class="skill-node" data-skill="api" tabindex="0" role="button" aria-expanded="false"
-                aria-label="API 整合">
-                <circle class="node-core" cx="166.9" cy="206.7" r="25" />
-                <g class="node-icon" transform="translate(166.9,206.7)">
-                  <rect x="-9" y="-7" width="18" height="14" rx="2" />
-                  <path d="M-5,-1 L-1,3 L5,-4" />
+                <!-- 02 資料庫 -->
+                <g
+                  class="skill-node"
+                  data-skill="database"
+                  tabindex="0"
+                  role="button"
+                  aria-expanded="false"
+                  aria-label="資料庫"
+                >
+                  <circle class="node-core" cx="433.1" cy="206.7" r="25" />
+                  <g class="node-icon" transform="translate(433.1,206.7)">
+                    <ellipse cx="0" cy="-6" rx="8" ry="3.5" />
+                    <path d="M-8,-6 V6 C-8,10 8,10 8,6 V-6" />
+                    <path d="M-8,0 C-8,4 8,4 8,0" />
+                  </g>
+                  <text class="node-label" x="433.1" y="261.7">資料庫</text>
                 </g>
-                <text class="node-label" x="166.9" y="261.7">API 整合</text>
-              </g>
-            </svg>
-          </div>
 
-          <div class="skill-detail-list" id="skillDetail">
-            <p class="skill-detail-hint" id="skillDetailHint"></p>
+                <!-- 03 爬蟲開發 -->
+                <g
+                  class="skill-node"
+                  data-skill="scraping"
+                  tabindex="0"
+                  role="button"
+                  aria-expanded="false"
+                  aria-label="爬蟲開發"
+                >
+                  <circle class="node-core" cx="382.3" cy="363.3" r="25" />
+                  <g class="node-icon" transform="translate(382.3,363.3)">
+                    <circle cx="0" cy="0" r="8" />
+                    <circle class="icon-dot" cx="-3" cy="-2" r="1" />
+                    <circle class="icon-dot" cx="3" cy="-2" r="1" />
+                    <path d="M-4,3 Q0,6 4,3" />
+                  </g>
+                  <text class="node-label" x="382.3" y="418.3">爬蟲開發</text>
+                </g>
 
-            <!-- 後端開發 -->
-            <div class="skill-detail-item" data-skill="backend">
-              <h3>後端開發</h3>
-              <div class="prof-bar-label">
-                <span>熟練度</span>
-                <span class="prof-num"><span class="prof-count">0</span>%</span>
+                <!-- 04 自動化 -->
+                <g
+                  class="skill-node"
+                  data-skill="automation"
+                  tabindex="0"
+                  role="button"
+                  aria-expanded="false"
+                  aria-label="自動化"
+                >
+                  <circle class="node-core" cx="217.7" cy="363.3" r="25" />
+                  <g class="node-icon" transform="translate(217.7,363.3)">
+                    <circle cx="0" cy="0" r="5" />
+                    <circle cx="0" cy="0" r="1.8" />
+                    <line x1="5" y1="0" x2="8.5" y2="0" />
+                    <line x1="3.54" y1="3.54" x2="6.01" y2="6.01" />
+                    <line x1="0" y1="5" x2="0" y2="8.5" />
+                    <line x1="-3.54" y1="3.54" x2="-6.01" y2="6.01" />
+                    <line x1="-5" y1="0" x2="-8.5" y2="0" />
+                    <line x1="-3.54" y1="-3.54" x2="-6.01" y2="-6.01" />
+                    <line x1="0" y1="-5" x2="0" y2="-8.5" />
+                    <line x1="3.54" y1="-3.54" x2="6.01" y2="-6.01" />
+                  </g>
+                  <text class="node-label" x="217.7" y="418.3">自動化</text>
+                </g>
+
+                <!-- 05 API 整合 -->
+                <g
+                  class="skill-node"
+                  data-skill="api"
+                  tabindex="0"
+                  role="button"
+                  aria-expanded="false"
+                  aria-label="API 整合"
+                >
+                  <circle class="node-core" cx="166.9" cy="206.7" r="25" />
+                  <g class="node-icon" transform="translate(166.9,206.7)">
+                    <rect x="-9" y="-7" width="18" height="14" rx="2" />
+                    <path d="M-5,-1 L-1,3 L5,-4" />
+                  </g>
+                  <text class="node-label" x="166.9" y="261.7">API 整合</text>
+                </g>
+              </svg>
+            </div>
+
+            <div class="skill-detail-list" id="skillDetail">
+              <p class="skill-detail-hint" id="skillDetailHint"></p>
+
+              <!-- 後端開發 -->
+              <div class="skill-detail-item" data-skill="backend">
+                <h3>後端開發</h3>
+                <div class="prof-bar-label">
+                  <span>熟練度</span>
+                  <span class="prof-num"
+                    ><span class="prof-count">0</span>%</span
+                  >
+                </div>
+                <div class="prof-bar-track">
+                  <div class="prof-bar-fill" data-target="88"></div>
+                </div>
+                <div class="lvl">一年多實務開發經驗</div>
+                <p>
+                  主要使用 ASP.NET MVC 與 C# 進行網站後端開發與系統維護，
+                  負責功能開發、商業邏輯、資料處理及問題排查，具備從需求到實作的開發經驗。
+                </p>
+                <div class="tag-row">
+                  <span>C#</span>
+                  <span>ASP.NET MVC</span>
+                  <span>Razor</span>
+                </div>
               </div>
-              <div class="prof-bar-track">
-                <div class="prof-bar-fill" data-target="88"></div>
+
+              <!-- 資料庫 -->
+              <div class="skill-detail-item" data-skill="database">
+                <h3>資料庫</h3>
+                <div class="prof-bar-label">
+                  <span>熟練度</span>
+                  <span class="prof-num"
+                    ><span class="prof-count">0</span>%</span
+                  >
+                </div>
+                <div class="prof-bar-track">
+                  <div class="prof-bar-fill" data-target="85"></div>
+                </div>
+                <div class="lvl">實務資料處理經驗</div>
+                <p>
+                  使用 MS SQL Server 進行資料查詢、資料處理及系統功能整合， 熟悉
+                  SQL 查詢、資料表關聯及大量資料處理。
+                </p>
+                <div class="tag-row">
+                  <span>MS SQL Server</span>
+                  <span>SQL</span>
+                  <span>資料處理</span>
+                </div>
               </div>
-              <div class="lvl">一年多實務開發經驗</div>
-              <p>
-                主要使用 ASP.NET MVC 與 C# 進行網站後端開發與系統維護，
-                負責功能開發、商業邏輯、資料處理及問題排查，具備從需求到實作的開發經驗。
+
+              <!-- 爬蟲開發 -->
+              <div class="skill-detail-item" data-skill="scraping">
+                <h3>爬蟲開發</h3>
+                <div class="prof-bar-label">
+                  <span>熟練度</span>
+                  <span class="prof-num"
+                    ><span class="prof-count">0</span>%</span
+                  >
+                </div>
+                <div class="prof-bar-track">
+                  <div class="prof-bar-fill" data-target="78"></div>
+                </div>
+                <div class="lvl">實際專案開發經驗</div>
+                <p>
+                  使用 Python、Selenium、Puppeteer、Playwright
+                  進行網站資料抓取，
+                  參與房地產網站相關爬蟲開發，處理資料解析、資料整理及資料庫寫入。
+                </p>
+                <div class="tag-row">
+                  <span>Python</span>
+                  <span>Selenium</span>
+                  <span>Puppeteer</span>
+                  <span>Playwright</span>
+                </div>
+              </div>
+
+              <!-- 自動化 -->
+              <div class="skill-detail-item" data-skill="automation">
+                <h3>自動化</h3>
+                <div class="prof-bar-label">
+                  <span>熟練度</span>
+                  <span class="prof-num"
+                    ><span class="prof-count">0</span>%</span
+                  >
+                </div>
+                <div class="prof-bar-track">
+                  <div class="prof-bar-fill" data-target="80"></div>
+                </div>
+                <div class="lvl">Windows 與 Google Apps Script 自動化經驗</div>
+                <p>
+                  使用 Windows 工作排程器搭配 PowerShell（PS1）與
+                  Batch（BAT）執行 Python 程式，
+                  建立定時執行及程式重啟等自動化流程；另使用 Google Apps
+                  Script， 在 Google Sheet
+                  資料異動時自動觸發資料處理與更新，減少人工操作。
+                </p>
+                <div class="tag-row">
+                  <span>Windows 工作排程器</span>
+                  <span>PowerShell</span>
+                  <span>Batch</span>
+                  <span>Google Apps Script</span>
+                </div>
+              </div>
+
+              <!-- API 整合 -->
+              <div class="skill-detail-item" data-skill="api">
+                <h3>API 整合</h3>
+                <div class="prof-bar-label">
+                  <span>熟練度</span>
+                  <span class="prof-num"
+                    ><span class="prof-count">0</span>%</span
+                  >
+                </div>
+                <div class="prof-bar-track">
+                  <div class="prof-bar-fill" data-target="82"></div>
+                </div>
+                <div class="lvl">多項第三方服務串接經驗</div>
+                <p>
+                  具備 LINE Messaging API、藍新金流及 Google Apps Script 等
+                  第三方服務串接經驗，能依照需求處理 API 資料交換及系統整合。
+                </p>
+                <div class="tag-row">
+                  <span>LINE Messaging API</span>
+                  <span>藍新金流</span>
+                  <span>Google Apps Script</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 04 證照 -->
+          <section class="sheet" data-index="3">
+            <h2 class="sheet-title"><span class="idx">04</span>證照</h2>
+            <p class="sheet-sub"></p>
+            <div class="cert-grid">
+              <div class="cert-card">
+                <div class="cert-stamp"><span>COMPLETE</span></div>
+                <div class="cert-year">2024</div>
+                <h3>[TQC-DA-大型資料庫管理系統 MySQL5]</h3>
+                <div class="cert-org">[財團法人中華民國電腦技能基金會]</div>
+              </div>
+              <div class="cert-card">
+                <div class="cert-stamp"><span>COMPLETE</span></div>
+                <div class="cert-year">2019</div>
+                <h3>[丙級電腦輔助機械製圖]</h3>
+                <div class="cert-org">[勞動部勞動力發展署技能檢定中心]</div>
+              </div>
+              <div class="cert-card">
+                <div class="cert-stamp"><span>COMPLETE</span></div>
+                <div class="cert-year">2018</div>
+                <h3>[丙級機械加工]</h3>
+                <div class="cert-org">[勞動部勞動力發展署技能檢定中心]</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 05 經歷 -->
+          <section class="sheet" data-index="4">
+            <h2 class="sheet-title"><span class="idx">05</span>經歷</h2>
+            <p class="sheet-sub">學習與實務經驗的累積</p>
+
+            <div class="timeline">
+              <!-- 正式工作 -->
+              <div class="tl-item">
+                <div class="tl-date">2025 — 現在</div>
+                <h3>網站程式設計師 ｜ ○○○仲介經紀有限公司</h3>
+                <div class="tl-role">網站開發、系統維護與自動化程式開發</div>
+                <ul>
+                  <li>
+                    使用 ASP.NET MVC、C# 及 MS SQL Server
+                    進行網站功能開發與系統維護，平均每月完成約 5～8
+                    個功能模組開發與 Bug 修復。
+                  </li>
+                  <li>
+                    負責 LINE Messaging API、藍新金流等第三方服務串接，處理 API
+                    資料交換及相關問題排查。
+                  </li>
+                  <li>
+                    使用 Python、Selenium、Puppeteer、Playwright
+                    開發網站爬蟲，參與房地產網站資料抓取，處理網頁解析、資料整理及資料庫寫入。
+                  </li>
+                  <li>
+                    使用 Windows 工作排程器搭配 PowerShell（PS1）及
+                    Batch（BAT）執行 Python
+                    程式，建立定時執行及程式重啟等自動化流程。
+                  </li>
+                  <li>
+                    使用 Google Apps Script 串接 Google Sheet
+                    與資料庫，在資料異動時自動觸發資料處理與更新，減少人工操作。
+                  </li>
+                  <li>
+                    開發 OpenStreetMap 地圖找房功能，整合 GeoJSON
+                    區域資料及地圖標記，改善使用者操作體驗。
+                  </li>
+                </ul>
+              </div>
+              <!-- 進修 -->
+              <div class="tl-item">
+                <div class="tl-date">畢業後</div>
+                <h3>產業新尖兵｜網站程式開發培訓</h3>
+                <div class="tl-role">PHP（Laravel）網站開發</div>
+                <ul>
+                  <li>
+                    學習 PHP、Laravel 及
+                    MySQL，建立網站後端開發與資料庫操作能力。
+                  </li>
+                  <li>
+                    透過實際網站專案進行功能開發，熟悉 Laravel MVC
+                    架構及網站開發流程。
+                  </li>
+                </ul>
+              </div>
+              <!-- 學歷 -->
+              <div class="tl-item">
+                <div class="tl-date">大學</div>
+                <h3>國立高雄科技大學｜機械工程系</h3>
+                <div class="tl-role">智能系統與控制組</div>
+                <ul>
+                  <li>培養系統控制、邏輯分析及問題解決相關能力。</li>
+                  <li>
+                    在學習過程中逐漸接觸程式設計，並開始對軟體開發產生興趣。
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- 06 專案 -->
+          <section class="sheet" data-index="5">
+            <h2 class="sheet-title"><span class="idx">06</span>專案作品</h2>
+            <p class="sheet-sub"></p>
+            <div class="project-grid">
+              
+              <!-- 01 房地產地圖找房 -->
+              <div
+                class="card"
+                data-project="map"
+                tabindex="0"
+                role="button"
+                aria-expanded="false"
+              >
+                <div class="tag">MAP SEARCH</div>
+                <h3>房地產地圖找房</h3>
+                <p>
+                  開發地圖找房功能，整合行政區資料、條件篩選與地圖標記，
+                  讓使用者能依地理位置及搜尋條件，直覺地尋找房地產物件。
+                </p>
+                <div class="stack">
+                  <span>ASP.NET MVC</span>
+                  <span>Leaflet</span>
+                  <span>OpenStreetMap</span>
+                  <span>GeoJSON</span>
+                  <span>jQuery AJAX</span>
+                  <span>MS SQL</span>
+                </div>
+
+                <div class="project-detail" id="detail-map">
+                  <div class="pd-responsibility">
+                    <b>Leaflet 地圖互動</b>
+                    <b>GeoJSON 行政區圖層</b>
+                    <b>MVC 查詢與 JSON 回傳</b>
+                    <b>搜尋條件與地圖連動</b>
+                  </div>
+                  <!-- 專案概述 -->
+                  <div class="pm-section">
+                    <h4>專案概述</h4>
+                    <p>
+                      讓使用者直接在地圖上依區域與條件找房，不必逐頁瀏覽列表。後端提供物件座標與篩選結果，前端以
+                      Leaflet 負責渲染。
+                    </p>
+                  </div>
+                  <!-- 流程 -->
+                  <div class="pm-section">
+                    <h4>系統流程</h4>
+                    <div class="tier-flow">
+
+                      <div class="tier">
+                        <div class="tier-h">
+                          <span class="tier-n">01</span>
+                          <b>前端</b>
+                          <em>Leaflet · jQuery</em>
+                        </div>
+                        <ul>
+                          <li>初始化 Leaflet 地圖、OSM 底圖與 GeoJSON 行政區圖層</li>
+                          <li>取得地圖可視範圍、城市及搜尋條件</li>
+                          <li>透過 AJAX 發送查詢，依回傳結果更新地圖標記</li>
+                        </ul>
+                      </div>
+
+                      <div class="tier-link">
+                        <span class="tl-req">請求</span>
+                        <span class="tl-note">AJAX · HTTP POST</span>
+                        <span class="tl-res">JSON</span>
+                      </div>
+
+                      <div class="tier">
+                        <div class="tier-h">
+                          <span class="tier-n">02</span>
+                          <b>後端</b>
+                          <em>ASP.NET MVC</em>
+                        </div>
+                        <ul>
+                          <li>接收地圖範圍、城市及篩選條件</li>
+                          <li>依條件查詢並整理物件資料</li>
+                          <li>回傳物件資訊與座標 JSON</li>
+                        </ul>
+                      </div>
+
+                      <div class="tier-link">
+                        <span class="tl-req">查詢</span>
+                        <span class="tl-note">Entity Framework · SQL</span>
+                        <span class="tl-res">結果</span>
+                      </div>
+
+                      <div class="tier">
+                        <div class="tier-h">
+                          <span class="tier-n">03</span>
+                          <b>資料庫</b>
+                          <em>MS SQL Server</em>
+                        </div>
+                        <ul>
+                          <li>依查詢條件篩選符合的物件</li>
+                          <li>提供查詢結果供後端處理</li>
+                        </ul>
+                      </div>
+
+                    </div>
+                  </div>
+                  <!-- 重點 問題-->
+                  <div class="pd-work-grid">
+                    <div class="pm-section">
+                      <h4>技術重點與問題解決</h4>
+                      <div class="qa">
+
+                        <div class="qa-item">
+                          <div class="q">如何避免地圖一次載入過多物件？</div>
+                          <div class="a">
+                            設定地圖縮放層級門檻，達到指定程度後才執行物件搜尋，
+                            並依目前地圖可視範圍查詢，減少單次載入的物件數量，
+                            避免大量標記影響地圖操作體驗。
+                          </div>
+                        </div>
+
+                        <div class="qa-item">
+                          <div class="q">如何整合行政區資料與地圖？</div>
+                          <div class="a">
+                            使用 GeoJSON 載入縣市及鄉鎮市區界線，搭配 Leaflet
+                            圖層呈現行政區資訊，整合地理區域與地圖找房介面。
+                          </div>
+                        </div>
+
+                        <div class="qa-item">
+                          <div class="q">地圖範圍如何與搜尋條件連動？</div>
+                          <div class="a">
+                            整合搜尋表單與 Leaflet 地圖的 bounds
+                            可視範圍、中心點座標， 透過 AJAX 傳送查詢條件至 MVC
+                            後端。取得結果後，動態產生物件列表與地圖標記，
+                            並依中心點距離排序呈現搜尋結果。
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <!-- 核心程式碼 -->
+                    <div class="pm-section">
+                      <h4>核心程式碼</h4>
+                      <div class="code-col">
+
+                        <div class="code-tabs" role="tablist">
+                          <button type="button" class="on">01 · 前端</button>
+                          <button type="button">02 · 後端</button>
+                        </div>
+
+                        <!-- 前端 -->
+                        <div class="code-panel on">
+                          <div class="code-block">
+                            <div class="code-head">
+                              <span class="code-lang">JAVASCRIPT</span>
+                              <span class="code-title">地圖範圍查詢與標記更新</span>
+                              <button type="button" class="copy-btn">
+                                COPY
+                              </button>
+                            </div>
+                            <pre><code>// 取得地圖可視範圍與中心點
+const bounds = mapInstance.getBounds();
+const center = mapInstance.getCenter();
+
+let formData = $("#searchForm").serialize();
+
+// 加入地圖範圍與中心點座標
+formData += '&boundsNorth=' + encodeURIComponent(bounds.getNorth());
+formData += '&boundsSouth=' + encodeURIComponent(bounds.getSouth());
+formData += '&boundsEast=' + encodeURIComponent(bounds.getEast());
+formData += '&boundsWest=' + encodeURIComponent(bounds.getWest());
+formData += '&centerLat=' + encodeURIComponent(center.lat);
+formData += '&centerLng=' + encodeURIComponent(center.lng);
+
+// 傳送查詢條件至 MVC
+$.ajax({
+    type: "POST",
+    url: "/Map/SearchItems", // 示意路由
+    data: formData,
+    dataType: "json",
+    success: function (results) {
+        markersLayer.clearLayers();
+
+        // 依回傳結果建立地圖標記
+        // 並同步更新物件列表
+    }
+});</code></pre>
+                          </div>
+                          <p class="code-caption">
+                            取得地圖可視範圍與中心點座標，整合搜尋條件並透過
+                            AJAX 傳送至 MVC 後端，
+                            再依回傳結果更新地圖標記與物件列表。
+                          </p>
+                        </div>
+
+                        <!-- 後端 -->
+                        <div class="code-panel">
+                          <div class="code-block">
+                            <div class="code-head">
+                              <span class="code-lang">C#</span>
+                              <span class="code-title">接收條件並回傳 JSON</span>
+                              <button type="button" class="copy-btn">
+                                COPY
+                              </button>
+                            </div>
+                            <pre><code>// Controller 示意
+[HttpPost]
+public ActionResult SearchItems(MyDataBase mdb, FormCollection collection)
+{
+    // 取得地圖範圍與中心點
+    string boundsNorth = Request["boundsNorth"];
+    string boundsSouth = Request["boundsSouth"];
+    string boundsEast = Request["boundsEast"];
+    string boundsWest = Request["boundsWest"];
+    string centerLat = Request["centerLat"];
+    string centerLng = Request["centerLng"];
+
+    // 整合搜尋條件並篩選地圖範圍
+    // 使用 SQL Server geography::Point() 與 STDistance() 計算距離
+    // 依行政區匹配、距離及物件優先級排序
+
+    var result = mdb.Database
+        .SqlQuery&lt;SALES_ITEMS&gt;(sql, sqlParams.ToArray())
+        .ToList();
+
+    // 補齊物件顯示資訊等狀態
+
+    return Content(
+        JsonConvert.SerializeObject(
+            new { items = result }),
+        "application/json");
+}
+</code></pre>
+                          </div>
+                          <p class="code-caption">
+                            接收前端搜尋條件與地圖可視範圍，透過 SQL Server
+                            篩選符合條件的物件，利用 geography
+                            計算與地圖中心點的距離，
+                            再依距離及物件排序規則整理結果，補齊顯示資料後回傳
+                            JSON。
+                          </p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 成果 -->
+                  <div class="pm-section">
+                    <h4 class="h-line">成果</h4>
+                    <ul>
+                      <li>
+                        整合地圖底圖、行政區圖層、搜尋條件與物件標記，建立地圖找房功能。
+                      </li>
+                      <li>
+                        串接前端 AJAX、MVC 查詢及 JSON
+                        回傳，完成地圖與物件資料的互動流程。
+                      </li>
+                      <li>
+                        提供使用者列表以外的找房方式，不必只靠列表逐筆尋找，減少重複操作。
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 02 LINE 自動通知 -->
+              <div
+                class="card"
+                data-project="line"
+                tabindex="0"
+                role="button"
+                aria-expanded="false"
+              >
+                <div class="tag">API INTEGRATION</div>
+                <h3>LINE 自動通知與訊息管理系統</h3>
+                <p>
+                  串接 LINE Messaging API 與 LIFF，整合員工帳號綁定
+                  、個別訊息發送及客戶訂閱推薦、Redmine 議題通知及排程發送，
+                  提升公司內部訊息傳遞與客戶經營效率。
+                </p>
+                <div class="stack">
+                  <span>ASP.NET MVC</span>
+                  <span>LINE Messaging API</span>
+                  <span>LIFF</span>
+                  <span>Python</span>
+                  <span>MS SQL</span>
+                </div>
+
+                <div class="project-detail" id="detail-line">
+                  <div class="pd-responsibility">
+                    <b>員工 LINE 帳號綁定</b>
+                    <b>個別訊息發送</b>
+                    <b>LIFF 訂閱表單</b>
+                    <b>每週訂閱推播</b>
+                    <b>Redmine 議題通知</b>
+                    <b>排程發送與結果紀錄</b>
+                  </div>
+                  <!-- 專案概述 -->
+                  <div class="pm-section">
+                    <h4>專案概述</h4>
+                    <p>
+                      整合公司內部或議題通知與客戶訊息推播：以 LINE Webhook
+                      處理員工帳號綁定， LIFF
+                      提供客戶訂閱條件表單，再由排程程序依條件篩選物件、 透過
+                      LINE Messaging API 發送並記錄結果。
+                    </p>
+                  </div>
+                  <!-- 流程 -->
+                  <div class="pm-section">
+                    <h4>通知流程</h4>
+                    <div class="stage-flow cols-3">
+
+                      <div class="stage">
+                        <div class="stage-h">
+                          <span>STAGE 01</span><b>產生通知</b>
+                        </div>
+                        <ol class="stage-steps">
+                          <li>
+                            <strong>取得資料與通知對象</strong>
+                            <small
+                              >讀取待通知資料、員工
+                              綁定資訊及客戶訂閱條件</small
+                            >
+                          </li>
+                          <li>
+                            <strong>判斷通知條件</strong>
+                            <small
+                              >依訂閱價格、區域、物件類型或議題狀態篩選資料；議題通知僅限上班日發送</small
+                            >
+                          </li>
+                          <li>
+                            <strong>組合訊息</strong>
+                            <small
+                              >依通知情境準備個別訊息、自動通知或廣告內容、推薦連結</small
+                            >
+                          </li>
+                        </ol>
+                      </div>
+
+                      <div class="stage ext">
+                        <div class="stage-h">
+                          <span>STAGE 02</span><b>發送</b>
+                        </div>
+                        <ol class="stage-steps">
+                          <li>
+                            <strong>寫入待發送佇列</strong>
+                            <small
+                              >將收件對象、訊息分類、主旨及內容寫入通知佇列</small
+                            >
+                          </li>
+                          <li>
+                            <strong>呼叫 LINE API</strong>
+                            <small
+                              >定時檢查待發送資料，客戶廣告限定 20 點透過 Push
+                              API 發送</small
+                            >
+                          </li>
+                        </ol>
+                      </div>
+
+                      <div class="stage">
+                        <div class="stage-h">
+                          <span>STAGE 03</span><b>追蹤</b>
+                        </div>
+                        <ol class="stage-steps">
+                          <li>
+                            <strong>檢查發送結果</strong>
+                            <small>攔截 API 呼叫例外，辨識發送失敗</small>
+                          </li>
+                          <li>
+                            <strong>更新發送狀態</strong>
+                            <small> 寫回完成時間， 失敗時加註發送失敗</small>
+                          </li>
+                          <li>
+                            <strong>保留追蹤紀錄</strong>
+                            <small>透過資料庫紀錄協助後續問題排查與維護</small>
+                          </li>
+                        </ol>
+                      </div>
+
+                    </div>
+                    <div class="diagram-legend">
+                      <!-- <span><i class="lg own"></i>自己的系統</span> -->
+                      <span><i class="lg ext"></i>第三方服務</span>
+                    </div>
+                  </div>
+                  <!-- 重點 問題-->
+                  <div class="pd-work-grid">
+                    <div class="pm-section">
+                      <h4>技術重點與問題解決</h4>                      
+                      <div class="qa">
+
+                        <div class="qa-item">
+                          <div class="q">員工如何綁定自己的 LINE 帳號？</div>
+                          <div class="a">
+                            員工在官方帳號傳送固定格式的綁定訊息，Webhook
+                            比對人員資料後寫入 LINE
+                            ID，之後公司即可直接私訊通知。
+                          </div>
+                        </div>
+
+                        <div class="qa-item">
+                          <div class="q">如何讓客戶訂閱後收到定期廣告？</div>
+                          <div class="a">
+                            透過 LIFF
+                            建立訂閱表單，搭配排程比對訂閱條件，向已開啟訂閱的客戶推送符合條件的物件。
+                          </div>
+                        </div>
+
+                        <div class="qa-item">
+                          <div class="q">如何管理排程發送與失敗紀錄？</div>
+                          <div class="a">
+                            透過定時程序檢查待發送資料，依訊息類型識別收件者並呼叫
+                            LINE Messaging API；客戶廣告限定 20
+                            點發送，避免打擾。
+                            發送後更新完成時間，失敗時加註記錄，方便追蹤與維護。
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <!-- 核心程式碼 -->
+                    <div class="pm-section">
+                      <h4>核心程式碼</h4>
+                      <div class="code-col">
+
+                        <div class="code-tabs" role="tablist">
+                          <button type="button" class="on">01 · 帳號綁定</button>
+                          <button type="button">02 · 訂閱存檔</button>
+                          <button type="button">03 · 推薦比對</button>
+                          <button type="button">04 · 排程發送</button>
+                          <button type="button">05 · 議題通知</button>
+                        </div>
+
+                        <!-- 01 帳號綁定 -->
+                        <div class="code-panel on">
+                          <div class="code-block">
+                            <div class="code-head">
+                              <span class="code-lang">C#</span>
+                              <span class="code-title">Webhook：綁定 LINE 帳號</span>
+                              <button type="button" class="copy-btn">
+                                COPY
+                              </button>
+                            </div>
+                            <pre><code>// Webhook 事件分流：只處理使用者傳來的文字訊息
+var ev = JObject.Parse(json)["events"]?[0];
+string eventType  = ev?["type"]?.ToString();
+string sourceType = ev?["source"]?["type"]?.ToString();
+string userId     = ev?["source"]?["userId"]?.ToString();
+
+if (eventType == "message" &amp;&amp; sourceType == "user")
+{
+    string message = ev["message"]?["text"]?.ToString() ?? "";
+
+    // 員工在官方帳號傳送：BIND-姓名-電話
+    if (message.StartsWith("BIND-", StringComparison.OrdinalIgnoreCase))
+    {
+        var parts = message.Split('-');
+        string name = parts[1].Trim(), phone = parts[2].Trim();
+
+        var staff = db.Staff.FirstOrDefault(s =&gt;
+            s.Name == name &amp;&amp; s.Phone == phone &amp;&amp; s.IsActive == 1);
+
+        if (staff != null)
+        {
+            staff.LineUserId = userId;   // 寫入 LINE ID，之後可直接私訊通知
+            db.SaveChanges();
+            await PushMessage(userId, "已綁定 LINE 帳號");
+        }
+    }
+}</code></pre>
+                          </div>
+                          <p class="code-caption">
+                            員工以固定格式訊息綁定，比對人員資料後寫入 LINE ID。
+                          </p>
+                        </div>
+
+                        <!-- 02 訂閱存檔 -->
+                        <div class="code-panel">
+                          <div class="code-block">
+                            <div class="code-head">
+                              <span class="code-lang">C#</span>
+                              <span class="code-title">LIFF 表單：新增或更新訂閱條件</span>
+                              <button type="button" class="copy-btn">
+                                COPY
+                              </button>
+                            </div>
+                            <pre><code>// 同一個 LINE 帳號只保留一筆訂閱條件
+var sub = db.Subscription.FirstOrDefault(s =&gt; s.LineUserId == userId);
+if (sub == null)
+{
+    sub = new Subscription { LineUserId = userId };
+    db.Subscription.Add(sub);
+}
+ 
+sub.City         = city;
+sub.District     = district;
+sub.PriceBand    = priceBand;
+sub.PropertyType = propertyType;
+sub.Status       = subscribe ? "ACTIVE" : "PAUSED";
+ 
+db.SaveChanges();</code></pre>
+                          </div>
+                          <p class="code-caption">
+                            有訂閱就更新、沒有就新增；關閉訂閱只改狀態，保留條件。
+                          </p>
+                        </div>
+
+                        <!-- 03 推薦比對 -->
+                        <div class="code-panel">
+                          <div class="code-block">
+                            <div class="code-head">
+                              <span class="code-lang">PYTHON</span>
+                              <span class="code-title">依訂閱條件挑選物件並寫入佇列</span>
+                              <button type="button" class="copy-btn">
+                                COPY
+                              </button>
+                            </div>
+                            <pre><code>for sub in subscribers:                 # 逐一處理有效訂閱
+    conditions, params = ["status = 'OPEN'"], []
+
+    if sub["district"]:                 # 區域
+        conditions.append("address LIKE ?")
+        params.append(f"%{sub['district']}%")
+    if sub["property_type"]:            # 物件種類
+        conditions.append("property_type LIKE ?")
+        params.append(f"%{sub['property_type']}%")
+
+    conditions.append(PRICE_RANGE[sub["price_band"]])   # 總價區間
+
+    # 依縣市對應資料表，取最新候選物件
+    candidates = query_latest(sub["table"], conditions, params, limit=3)
+
+    item_url = None
+    for row in candidates:
+        if is_listed(row.id):           # 確認對應的上架資料存在
+            item_url = build_item_url(row)
+            break
+
+    if item_url:                        # 有符合物件才建立通知
+        subject = f"{sub['user_name']}您好，依您指定條件為您推薦以下物件："
+        cursor.execute(insert_sql, ("LINE", "SUBSCRIBE",
+                                    sub["line_id"], subject, item_url, now))</code></pre>
+                          </div>
+                          <p class="code-caption">
+                            以參數化查詢組合條件，找到已上架物件後寫入通知佇列。
+                          </p>
+                        </div>
+
+                        <!-- 04 排程發送 -->
+                        <div class="code-panel">
+                          <div class="code-block">
+                            <div class="code-head">
+                              <span class="code-lang">PYTHON</span>
+                              <span class="code-title">每分鐘掃描通知佇列並發送</span>
+                              <button type="button" class="copy-btn">
+                                COPY
+                              </button>
+                            </div>
+                            <pre><code>for row in pending_rows:
+    # 訂閱廣告只在 20 點發送
+    if row.category == 'SUBSCRIBE' and datetime.now().hour != 20:
+        continue
+ 
+    line_id = resolve_line_id(row)      # 依收件對象查詢 LINE ID
+    ok = send_line(line_id, row.subject, row.content)
+ 
+    # 記錄發送結果，失敗時保留註記方便追查
+    mark_done(row.id, note=None if ok else '發送失敗')
+ 
+ 
+def send_line(to_id, subject, content):
+    line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)   # Token 以設定常數集中管理
+    try:
+        line_bot_api.push_message(
+            to_id, TextSendMessage(text=f"{subject}\n{content}"))
+        return True
+    except Exception:
+        logging.exception("LINE 發送失敗：%s", to_id)
+        return False</code></pre>
+                          </div>
+                          <p class="code-caption">
+                            限定發送時段，並把成功或失敗結果寫回通知佇列。
+                          </p>
+                        </div>
+
+                        <!-- 05 議題通知 -->
+                        <div class="code-panel">
+                          <div class="code-block">
+                            <div class="code-head">
+                              <span class="code-lang">PYTHON</span>
+                              <span class="code-title">Redmine 待測試議題通知</span>
+                              <button type="button" class="copy-btn">
+                                COPY
+                              </button>
+                            </div>
+                            <pre><code>if is_holiday_day():                    # 假日依政府辦公日曆略過
+    return
+ 
+redmine = Redmine(REDMINE_URL, key=REDMINE_API_KEY)   # 連線設定集中管理
+ 
+should_send = False
+for issue in redmine.issue.filter(status_id=TEST_STATUS):
+    name = get_user_name(issue.author.id)       # 使用者名稱快取，減少 API 呼叫
+    test_counts[name] += 1
+    test_urls[name].append(f"{ISSUE_URL}/{issue.id}")
+ 
+    # 待測試議題在今天或昨天有更新才通知
+    if issue.updated_on.date() in (today, yesterday):
+        should_send = True
+ 
+if should_send and test_counts:
+    # 直接推播到主管群，不經通知佇列
+    send_to_group(MANAGER_GROUP_ID, build_message(test_counts, test_urls))</code></pre>
+                          </div>
+                          <p class="code-caption">
+                            依提報人統計待測試議題，僅在上班日且近期有異動時，直接推播到主管群組。
+                          </p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 成果 -->
+                  <div class="pm-section">
+                    <h4 class="h-line">成果</h4>
+                    <ul>
+                      <li>
+                        整合資料條件判斷與 LINE 自動通知，降低人工逐筆確認的需求
+                      </li>
+                      <li>
+                        建立 LIFF 訂閱表單，提供客戶自行管理訂閱狀態的入口
+                      </li>
+                      <li>
+                        透過每週排程在固定時段向已開啟訂閱的客戶推送對應廣告訊息
+                      </li>
+                      <li>
+                        整合 API 發送與錯誤檢查，讓通知流程更容易追蹤與維護
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 03 藍新金流 -->
+              <div
+                class="card"
+                data-project="pay"
+                tabindex="0"
+                role="button"
+                aria-expanded="false"
+              >
+                <div class="tag">PAYMENT</div>
+                <h3>藍新金流串接</h3>
+                <p>
+                  參與第三方金流串接，負責交易參數處理、付款流程及回傳結果驗證，
+                  並於測試環境進行 API 串接、流程驗證與異常問題排查。
+                </p>
+                <div class="stack">
+                  <span>ASP.NET MVC</span>
+                  <span>NewebPay</span>
+                </div>
+
+                <div class="project-detail" id="detail-pay">
+                  <div class="pd-responsibility">
+                    <b>交易參數處理</b>
+                    <b>付款回傳驗證</b>
+                    <b>測試與除錯</b>
+                  </div>
+                  <!-- 專案概述 -->
+                  <div class="pm-section">
+                    <h4>專案概述</h4>
+                    <p>
+                      串接藍新金流，讓使用者能在網站上完成線上付款，系統並能正確接收付款結果、更新訂單狀態。
+                    </p>
+                  </div>
+                  <!-- 流程 -->
+                  <div class="pm-section">
+                    <h4>付款互動（網站 ⇄ 藍新金流）</h4>
+                    <div class="tier-flow">
+
+                      <div class="tier">
+                        <div class="tier-h">
+                          <span class="tier-n">01</span>
+                          <b>網站頁面</b>
+                          <em>使用者操作</em>
+                        </div>
+                        <ul>
+                          <li>送出付款請求</li>
+                          <li>導向藍新付款頁</li>
+                          <li>付款後返回網站</li>
+                        </ul>
+                      </div>
+
+                      <div class="tier-link">
+                        <span class="tl-req">付款請求</span
+                        ><span class="tl-note">MVC Action</span
+                        ><span class="tl-res">導向 / 結果頁</span>
+                      </div>
+
+                      <div class="tier">
+                        <div class="tier-h">
+                          <span class="tier-n">02</span>
+                          <b>MVC 後端</b>
+                          <em>C# · ASP.NET MVC</em>
+                        </div>
+                        <ul>
+                          <li>建立待付款訂單，保留交易識別資料</li>
+                          <li>組合交易參數、加密與產生檢查碼</li>
+                          <li>透過 NotifyURL 接收背景交易通知</li>
+                          <li>驗證、解密並更新訂單狀態</li>
+                        </ul>
+                      </div>
+
+                      <div class="tier-link">
+                        <span class="tl-req">交易請求</span>
+                        <span class="tl-note">API 串接</span>
+                        <span class="tl-res">交易回傳</span>
+                      </div>
+
+                      <div class="tier ext">
+                        <div class="tier-h">
+                          <span class="tier-n">03</span>
+                          <b>藍新金流</b>
+                          <em>NewebPay</em>
+                        </div>
+                        <ul>
+                          <li>接收交易參數</li>
+                          <li>提供付款服務</li>
+                          <li>處理付款並回傳結果</li>
+                        </ul>
+                      </div>
+
+                    </div>
+                    <div class="diagram-legend">
+                      <!-- <span><i class="lg own"></i>自己的系統</span> -->
+                      <span><i class="lg ext"></i>第三方服務</span>
+                    </div>
+                    <!-- <p class="diagram-note">
+                      註解
+                    </p> -->
+                  </div>
+                  <!-- 重點 問題-->
+                  <div class="pd-work-grid">
+                    <div class="pm-section">
+                      <h4>技術重點與問題解決</h4>
+                      <div class="qa">
+
+                        <div class="qa-item">
+                          <div class="q">如何確保回傳資料可信？</div>
+                          <div class="a">
+                            應先依金流規格驗證檢查碼／簽章，並比對訂單編號與金額，再進行狀態更新。
+                          </div>
+                        </div>
+
+                        <div class="qa-item">
+                          <div class="q">AES 解密時發生 Padding 錯誤</div>
+                          <div class="a">
+                            解密過程遇到填充（Padding）相關異常，針對加密設定、
+                            解密方式及填充處理進行排查，確認解密流程與金流規格的一致性。
+                          </div>
+                        </div>
+
+                        <div class="qa-item">
+                          <div class="q">如何排查金流串接異常？</div>
+                          <div class="a">
+                            依序檢查交易參數、加密結果及回傳內容，
+                            逐步定位問題發生的階段，縮小異常排查範圍。
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <!-- 核心程式碼 -->
+                    <div class="pm-section">
+                      <h4>核心程式碼</h4>
+                      <div class="code-col">
+
+                        <div class="code-tabs" role="tablist">
+                          <button type="button" class="on">01 · 送出交易</button>
+                          <button type="button">02 · 回傳驗證</button>
+                          <button type="button">03 · 解密處理</button>
+                        </div>
+
+                        <!-- 01 送出交易 -->
+                        <div class="code-panel on">
+                          <div class="code-block">
+                            <div class="code-head">
+                              <span class="code-lang">C#</span>
+                              <span class="code-title">產生藍新交易資料</span>
+                              <button type="button" class="copy-btn">
+                                COPY
+                              </button>
+                            </div>
+                            <pre><code>// CreatePayment：組合參數並產生交易資料
+string tradeInfoStr = ToQueryString(tradeInfoParams);
+
+// AES-256-CBC 加密
+string tradeInfoEnc = AesEncrypt(
+    tradeInfoStr, config.HashKey, config.HashIV);
+
+// 產生 SHA-256 檢查碼
+string tradeSha = GetTradeSha(
+    tradeInfoEnc, config.HashKey, config.HashIV);
+
+// 傳入付款頁面 ViewModel
+var vm = new NewebpayViewModel
+{
+    PayGateWay = PayGateWay,
+    MerchantID = config.MerchantID,
+    TradeInfo = tradeInfoEnc,
+    TradeSha = tradeSha,
+    Version = "2.3"
+};</code></pre>
+                          </div>
+                          <p class="code-caption">
+                            依藍新規格組合交易參數，完成 AES 加密與 SHA-256
+                            檢查碼產生，再將交易資料交給付款頁面送出。
+                          </p>
+                        </div>
+
+                        <!-- 02 回傳驗證 -->
+                        <div class="code-panel">
+                          <div class="code-block">
+                            <div class="code-head">
+                              <span class="code-lang">C#</span>
+                              <span class="code-title">NotifyURL 回傳處理</span>
+                              <button type="button" class="copy-btn">
+                                COPY
+                              </button>
+                            </div>
+                            <pre><code>// NotifyFromPayment：驗證背景通知
+string computedSha = GetTradeSha(
+    tradeInfo, config.HashKey, config.HashIV);
+
+if (!string.Equals(
+    computedSha, tradeSha,
+    StringComparison.OrdinalIgnoreCase))
+{
+    return Content("FAIL");
+}
+
+// 驗證通過後解密
+string decrypted = AesDecrypt(
+    tradeInfo, config.HashKey, config.HashIV);
+
+var result =
+    JsonConvert.DeserializeObject&lt;NewebpayReturnResult&gt;(
+        decrypted);
+
+if (result?.Result == null)
+    return Content("FAIL");
+
+// 確認交易是否已處理，避免重複寫入
+var r = result.Result;
+
+bool exists = IsTransactionProcessed(
+    r.MerchantOrderNo, r.TradeNo);
+
+if (exists)
+    return Content("OK");
+
+// 依交易結果更新付款紀錄
+// 儲存交易資訊並更新對應的資料</code></pre>
+                          </div>
+                          <p class="code-caption">
+                            先驗證
+                            TradeSha，再解密及解析交易結果，並檢查交易是否已處理。
+                            通過驗證後才進行後續付款紀錄更新。
+                          </p>
+                        </div>
+
+                        <!-- 03 解密處理 -->
+                        <div class="code-panel">
+                          <div class="code-block">
+                            <div class="code-head">
+                              <span class="code-lang">C#</span>
+                              <span class="code-title">手動移除 PKCS7 Padding</span>
+                              <button type="button" class="copy-btn">
+                                COPY
+                              </button>
+                            </div>
+                            <pre><code>// AesDecrypt：關閉自動 Padding 驗證
+aes.Mode = CipherMode.CBC;
+aes.Padding = PaddingMode.None;
+
+// 解密取得原始位元組
+byte[] rawBytes = decryptor.TransformFinalBlock(
+    cipherBytes, 0, cipherBytes.Length);
+
+// 手動剝 PKCS7 padding，模仿 PHP 的做法：
+// 只看最後一個 byte，不做嚴格驗證
+int padLength = rawBytes[rawBytes.Length - 1];
+
+// 移除 Padding，還原原始資料
+if (padLength &gt; 0 &amp;&amp; padLength &lt;= rawBytes.Length)
+{
+    byte[] outputBytes =
+        new byte[rawBytes.Length - padLength];
+
+    Array.Copy(rawBytes, outputBytes, outputBytes.Length);
+    return Encoding.UTF8.GetString(outputBytes);
+}
+// padLength 異常（例如 0 或超過緩衝區長度）
+// 保底：不移除 Padding，直接使用原始解密資料
+return Encoding.UTF8.GetString(rawBytes);</code></pre>
+                          </div>
+                          <p class="code-caption">
+                            曾遇到 AES 解密的 Padding
+                            相關異常，因此調整填充處理方式， 改以
+                            PaddingMode.None 解密後手動移除填充。
+                            此為實際處理方式的精簡展示。
+                          </p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 成果 -->
+                  <div class="pm-section">
+                    <h4 class="h-line">成果</h4>
+                    <ul>
+                      <li>
+                        參與完成藍新金流串接，銜接網站付款與交易結果處理流程。
+                      </li>
+                      <li>
+                        透過測試環境驗證參數、加密與回傳資料，協助排查串接異常。
+                      </li>
+                      <li>
+                        建立對第三方 API、交易資料驗證及訂單狀態管理的實務經驗。
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 04 房地產網站爬蟲 -->
+              <div
+                class="card"
+                data-project="scraper"
+                tabindex="0"
+                role="button"
+                aria-expanded="false"
+              >
+                <div class="tag">WEB SCRAPING</div>
+                <h3>房地產網站爬蟲</h3>
+                <p>
+                  參與房地產網站相關爬蟲開發，處理網站資料解析、資料整理、錯誤重試及資料庫寫入，並搭配排程進行自動化執行。
+                </p>
+                <div class="stack">
+                  <span>Python</span>
+                  <span>Selenium</span>
+                  <span>Playwright</span>
+                  <span>Puppeteer</span>
+                  <span>MS SQL</span>
+                </div>
+
+                <div class="project-detail" id="detail-scraper">
+                  <div class="pd-responsibility">
+                    <b>Python 爬蟲</b>
+                    <b>資料解析與清洗</b>
+                    <b>錯誤重試與例外處理</b>
+                    <b>Windows 排程自動化</b>
+                  </div>
+                  <!-- 專案概述 -->
+                  <div class="pm-section">
+                    <h4>專案概述</h4>
+                    <p>
+                      定時抓取房地產網站的物件資料，格式整理後寫入資料庫，
+                      並搭配排程執行與錯誤處理機制，減少人工蒐集及建檔的重複操作。
+                    </p>
+                  </div>
+                  <!-- 流程 -->
+                  <div class="pm-section">
+                    <h4>資料處理流程</h4>
+                    <div class="stage-flow cols-3">
+
+                      <div class="stage">
+                        <div class="stage-h">
+                          <span>STAGE 01</span><b>排程啟動</b>
+                        </div>
+                        <ol class="stage-steps">
+                          <li>
+                            <strong>自動執行</strong
+                            ><small
+                              >透過 Windows 工作排程器搭配 PS1 / BAT
+                              腳本啟動爬蟲程式</small
+                            >
+                          </li>
+                        </ol>
+                      </div>
+
+                      <div class="stage">
+                        <div class="stage-h">
+                          <span>STAGE 02</span><b>擷取與整理</b>
+                        </div>
+                        <ol class="stage-steps">
+                          <li>
+                            <strong>載入網站</strong
+                            ><small
+                              >依網站特性使用瀏覽器自動化工具載入列表頁與物件頁</small
+                            >
+                          </li>
+                          <li>
+                            <strong>解析與清洗</strong
+                            ><small
+                              >擷取所需欄位、統一資料格式，處理缺漏或異常值</small
+                            >
+                          </li>
+                        </ol>
+                      </div>
+
+                      <div class="stage">
+                        <div class="stage-h">
+                          <span>STAGE 03</span><b>比對與入庫</b>
+                        </div>
+                        <ol class="stage-steps">
+                          <li>
+                            <strong>比對資料</strong
+                            ><small>依物件識別欄位確認是否已存在</small>
+                          </li>
+                          <li>
+                            <strong>寫入與記錄</strong
+                            ><small>新增或更新資料，並處理執行異常</small>
+                          </li>
+                        </ol>
+                      </div>
+
+                    </div>
+                    <!-- <p class="diagram-note">
+                      註解
+                    </p> -->
+                  </div>
+                  <!-- 重點 問題-->
+                  <div class="pd-work-grid">
+                    <div class="pm-section">
+                      <h4>技術重點與問題解決</h4>
+                      <div class="qa">
+
+                        <div class="qa-item">
+                          <div class="q">如何處理網頁載入失敗與爬蟲中斷？</div>
+                          <div class="a">
+                            依需求等待指定元素載入，設定逾時時間與重試次數；
+                            遇到例外時記錄錯誤，並依排程或腳本設定處理後續執行。
+                          </div>
+                        </div>
+
+                        <div class="qa-item">
+                          <div class="q">
+                            如何避免重複抓取造成資料重複或未同步更新？
+                          </div>
+                          <div class="a">
+                            以 UUID
+                            比對資料庫中的既有物件，再依房價、坪數等欄位的異動情況，
+                            判斷新增、更新、完整刷新或略過資料。
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <!-- 核心程式碼 -->
+                    <div class="pm-section">
+                      <h4>核心程式碼</h4>
+                      <div class="code-col">
+
+                        <div class="code-tabs" role="tablist">
+                          <button type="button" class="on">01 · 頁面載入與失敗重試</button>
+                          <button type="button">02 · 資料比對與資料庫同步</button>
+                          <button type="button">03 · 爬蟲進度保存與續跑</button>
+                        </div>
+
+                        <!-- 01 頁面載入與失敗重試 -->
+                        <div class="code-panel on">
+                          <div class="code-block">
+                            <div class="code-head">
+                              <span class="code-lang">PYTHON</span>
+                              <span class="code-title">限制重試次數與等待時間</span>
+                              <button type="button" class="copy-btn">
+                                COPY
+                              </button>
+                            </div>
+                            <pre><code>import random
+import time
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+max_retries = 3
+retry_count = 0
+
+while retry_count &lt; max_retries:
+    try:
+        retry_count += 1
+        self.driver.get(item_link)
+
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(
+            EC.presence_of_element_located(
+                (By.CSS_SELECTOR, 'a[class*="goToMap"]')
+            )
+        )
+
+        soup = BeautifulSoup(
+            self.driver.page_source, "html.parser"
+        )
+        title = soup.title.string
+        break
+
+    except Exception as e:
+        if retry_count == max_retries:
+            logger.error(e)
+            result = "failed"
+            return result, info_list
+
+        time.sleep(random.uniform(2, 5))</code></pre>
+                          </div>
+                          <p class="code-caption">
+                            使用 Selenium
+                            載入物件頁面，等待指定元素出現後再解析，
+                            並搭配重試機制與隨機延遲處理載入失敗，提升爬蟲執行的穩定性。
+                          </p>
+                        </div>
+
+                        <!-- 02 資料比對與資料庫同步 -->
+                        <div class="code-panel">
+                          <div class="code-block">
+                            <div class="code-head">
+                              <span class="code-lang">PYTHON</span>
+                              <span class="code-title">物件資料比對與異動判斷</span>
+                              <button type="button" class="copy-btn">
+                                COPY
+                              </button>
+                            </div>
+                            <pre><code># 批次查詢資料庫中已存在的物件
+uuid_list = [house["UUID"] for house in house_info_list]
+uuid_sql = ",".join([f"'{uuid}'" for uuid in uuid_list])
+
+select_sql = f"""
+SELECT
+    UUID,
+    TotalPrice,
+    Area,
+    Seller,
+    Address,
+    Source
+FROM dbo.Listings
+WHERE UUID IN ({uuid_sql})
+"""
+
+cursor.execute(select_sql)
+db_map = {row.UUID: row for row in cursor.fetchall()}
+
+# 比對物件資料，判斷是否需要更新
+for house in house_info_list:
+    uuid = house["UUID"]
+
+    if uuid in db_map:
+        db_row = db_map[uuid]
+        need_update = False
+        need_refresh = bool(house.get("refresh", False))
+
+        try:
+            if int(float(db_row.TotalPrice)) != int(float(house["stp"])):
+                need_update = True
+        except (ValueError, TypeError):
+            pass
+
+        try:
+            if str(db_row.Area) != str(house["size2"]):
+                need_update = True
+        except (KeyError, TypeError):
+            pass</code></pre>
+                          </div>
+                          <p class="code-caption">
+                            透過 UUID 比對既有物件，檢查房價、坪數等欄位的異動，
+                            作為資料新增、更新、完整刷新或略過的判斷依據，
+                            確保資料同步流程的正確性。
+                          </p>
+                        </div>
+
+                        <!-- 03 爬蟲進度保存與續跑 -->
+                        <div class="code-panel">
+                          <div class="code-block">
+                            <div class="code-head">
+                              <span class="code-lang">C# / PLAYWRIGHT</span>
+                              <span class="code-title">進度檔讀取與頁碼恢復</span>
+                              <button type="button" class="copy-btn">
+                                COPY
+                              </button>
+                            </div>
+                            <pre><code>// 讀取上次爬取進度
+string resumeCity = "";
+int resumePage = 1;
+
+if (File.Exists(ProgressFile))
+{
+    var content = File.ReadAllText(ProgressFile).Trim();
+    var parts = content.Split('|');
+
+    if (parts.Length >= 2)
+    {
+        resumeCity = parts[0];
+
+        if (!int.TryParse(parts[1], out resumePage)
+            || resumePage &lt; 1)
+        {
+            resumePage = 1;
+        }
+    }
+}
+
+// 保存下一次要處理的頁碼
+File.WriteAllText(
+    ProgressFile,
+    $"{city}|{currentPage + 1}"
+);</code></pre>
+                          </div>
+                          <p class="code-caption">
+                            使用檔案記錄目前城市與頁碼，啟動時讀取上次進度，
+                            並於每頁完成後保存下一個處理位置，讓爬蟲中斷後能從先前的位置繼續執行，
+                            降低重新爬取已處理資料的成本。
+                          </p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 成果 -->
+                  <div class="pm-section">
+                    <h4 class="h-line">成果</h4>
+                    <ul>
+                      <li>將網站資料擷取、整理、資料庫寫入與排程執行串接</li>
+                      <li>
+                        降低人工蒐集及建檔的重複操作，減少重複資料建檔與人工維護成本
+                      </li>
+                      <li>
+                        加入逾時、重試與例外處理，提升爬蟲執行的穩定性與可維護性
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-detail-panel" id="projectPanel">
+              <p class="project-detail-hint" id="projectHint">
+                點選上方專案卡片，查看流程與詳細說明
               </p>
-              <div class="tag-row">
-                <span>C#</span>
-                <span>ASP.NET MVC</span>
-                <span>Razor</span>
-              </div>
+              <div id="projectDetailBody"></div>
             </div>
+          </section>
 
-            <!-- 資料庫 -->
-            <div class="skill-detail-item" data-skill="database">
-              <h3>資料庫</h3>
-              <div class="prof-bar-label">
-                <span>熟練度</span>
-                <span class="prof-num"><span class="prof-count">0</span>%</span>
-              </div>
-              <div class="prof-bar-track">
-                <div class="prof-bar-fill" data-target="85"></div>
-              </div>
-              <div class="lvl">實務資料處理經驗</div>
-              <p>
-                使用 MS SQL Server 進行資料查詢、資料處理及系統功能整合，
-                熟悉 SQL 查詢、資料表關聯及大量資料處理。
-              </p>
-              <div class="tag-row">
-                <span>MS SQL Server</span>
-                <span>SQL</span>
-                <span>資料處理</span>
-              </div>
-            </div>
-
-            <!-- 爬蟲開發 -->
-            <div class="skill-detail-item" data-skill="scraping">
-              <h3>爬蟲開發</h3>
-              <div class="prof-bar-label">
-                <span>熟練度</span>
-                <span class="prof-num"><span class="prof-count">0</span>%</span>
-              </div>
-              <div class="prof-bar-track">
-                <div class="prof-bar-fill" data-target="78"></div>
-              </div>
-              <div class="lvl">實際專案開發經驗</div>
-              <p>
-                使用 Python、Selenium、Puppeteer、Playwright 進行網站資料抓取，
-                參與房地產網站相關爬蟲開發，處理資料解析、資料整理及資料庫寫入。
-              </p>
-              <div class="tag-row">
-                <span>Python</span>
-                <span>Selenium</span>
-                <span>Puppeteer</span>
-                <span>Playwright</span>
-              </div>
-            </div>
-
-
-            <!-- 自動化 -->
-            <div class="skill-detail-item" data-skill="automation">
-              <h3>自動化</h3>
-              <div class="prof-bar-label">
-                <span>熟練度</span>
-                <span class="prof-num"><span class="prof-count">0</span>%</span>
-              </div>
-              <div class="prof-bar-track">
-                <div class="prof-bar-fill" data-target="80"></div>
-              </div>
-              <div class="lvl">Windows 與 Google Apps Script 自動化經驗</div>
-              <p>
-                使用 Windows 工作排程器搭配 PowerShell（PS1）與 Batch（BAT）執行 Python 程式，
-                建立定時執行及程式重啟等自動化流程；另使用 Google Apps Script，
-                在 Google Sheet 資料異動時自動觸發資料處理與更新，減少人工操作。
-              </p>
-              <div class="tag-row">
-                <span>Windows 工作排程器</span>
-                <span>PowerShell</span>
-                <span>Batch</span>
-                <span>Google Apps Script</span>
-              </div>
-            </div>
-
-
-
-            <!-- API 整合 -->
-            <div class="skill-detail-item" data-skill="api">
-              <h3>API 整合</h3>
-              <div class="prof-bar-label">
-                <span>熟練度</span>
-                <span class="prof-num"><span class="prof-count">0</span>%</span>
-              </div>
-              <div class="prof-bar-track">
-                <div class="prof-bar-fill" data-target="82"></div>
-              </div>
-              <div class="lvl">多項第三方服務串接經驗</div>
-              <p>
-                具備 LINE Messaging API、藍新金流及 Google Apps Script 等
-                第三方服務串接經驗，能依照需求處理 API 資料交換及系統整合。
-              </p>
-              <div class="tag-row">
-                <span>LINE Messaging API</span>
-                <span>藍新金流</span>
-                <span>Google Apps Script</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-
-        <!-- 04 證照 -->
-        <section class="sheet" data-index="3">
-          <h2 class="sheet-title"><span class="idx">04</span>證照</h2>
-          <p class="sheet-sub"></p>
-          <div class="cert-grid">
-            <div class="cert-card">
-              <div class="cert-stamp"><span>COMPLETE</span></div>
-              <div class="cert-year">2024</div>
-              <h3>[TQC-DA-大型資料庫管理系統 MySQL5]</h3>
-              <div class="cert-org">[財團法人中華民國電腦技能基金會]</div>
-            </div>
-            <div class="cert-card">
-              <div class="cert-stamp"><span>COMPLETE</span></div>
-              <div class="cert-year">2019</div>
-              <h3>[丙級電腦輔助機械製圖]</h3>
-              <div class="cert-org">[勞動部勞動力發展署技能檢定中心]</div>
-            </div>
-            <div class="cert-card">
-              <div class="cert-stamp"><span>COMPLETE</span></div>
-              <div class="cert-year">2018</div>
-              <h3>[丙級機械加工]</h3>
-              <div class="cert-org">[勞動部勞動力發展署技能檢定中心]</div>
-            </div>
-          </div>
-        </section>
-
-
-        <!-- 05 經歷 -->
-        <section class="sheet" data-index="4">
-          <h2 class="sheet-title"><span class="idx">05</span>經歷</h2>
-          <p class="sheet-sub">學習與實務經驗的累積</p>
-
-          <div class="timeline">
-
-            <!-- 正式工作 -->
-            <div class="tl-item">
-              <div class="tl-date">2025 — 現在</div>
-              <h3>網站程式設計師 ｜ ○○○仲介經紀有限公司</h3>
-              <div class="tl-role">網站開發、系統維護與自動化程式開發</div>
-              <ul>
-                <li>使用 ASP.NET MVC、C# 及 MS SQL Server 進行網站功能開發與系統維護，平均每月完成約 5～8 個功能模組開發與 Bug 修復。</li>
-                <li>負責 LINE Messaging API、藍新金流等第三方服務串接，處理 API 資料交換及相關問題排查。</li>
-                <li>使用 Python、Selenium、Puppeteer、Playwright 開發網站爬蟲，參與房地產網站資料抓取，處理網頁解析、資料整理及資料庫寫入。</li>
-                <li>使用 Windows 工作排程器搭配 PowerShell（PS1）及 Batch（BAT）執行 Python 程式，建立定時執行及程式重啟等自動化流程。</li>
-                <li>使用 Google Apps Script 串接 Google Sheet 與資料庫，在資料異動時自動觸發資料處理與更新，減少人工操作。</li>
-                <li>開發 OpenStreetMap 地圖找房功能，整合 GeoJSON 區域資料及地圖標記，改善使用者操作體驗。</li>
-              </ul>
-            </div>
-            <!-- 進修 -->
-            <div class="tl-item">
-              <div class="tl-date">畢業後</div>
-              <h3>產業新尖兵｜網站程式開發培訓</h3>
-              <div class="tl-role">PHP（Laravel）網站開發</div>
-              <ul>
-                <li>學習 PHP、Laravel 及 MySQL，建立網站後端開發與資料庫操作能力。</li>
-                <li>透過實際網站專案進行功能開發，熟悉 Laravel MVC 架構及網站開發流程。</li>
-              </ul>
-            </div>
-            <!-- 學歷 -->
-            <div class="tl-item">
-              <div class="tl-date">大學</div>
-              <h3>國立高雄科技大學｜機械工程系</h3>
-              <div class="tl-role">智能系統與控制組</div>
-              <ul>
-                <li>培養系統控制、邏輯分析及問題解決相關能力。</li>
-                <li>在學習過程中逐漸接觸程式設計，並開始對軟體開發產生興趣。</li>
-              </ul>
-            </div>
-
-          </div>
-        </section>
-
-
-        <!-- 06 專案 -->
-        <section class="sheet" data-index="5">
-          <h2 class="sheet-title"><span class="idx">06</span>專案作品</h2>
-          <p class="sheet-sub"></p>
-
-          <div class="project-grid">
-
-            <!-- 01 房地產地圖找房 -->
-            <div class="card">
-              <div class="tag">WEB PLATFORM</div>
-              <h3>房地產地圖找房</h3>
-              <p>
-                開發地圖找房功能，整合區域資料、條件篩選及地圖標記，
-                提供使用者以地圖方式搜尋房地產物件。
-              </p>
-              <div class="stack">
-                <span>ASP.NET MVC</span>
-                <span>Leaflet</span>
-                <span>OpenStreetMap</span>
-                <span>GeoJSON</span>
-              </div>
-            </div>
-
-            <!-- 02 LINE 自動通知 -->
-            <div class="card">
-              <div class="tag">API INTEGRATION</div>
-              <h3>LINE 自動通知系統</h3>
-              <p>
-                串接 LINE Messaging API，搭配資料庫及自動化程式，
-                在資料狀態發生變化時主動發送通知，提升資訊傳遞效率。
-              </p>
-              <div class="stack">
-                <span>ASP.NET MVC</span>
-                <span>LINE Messaging API</span>
-                <span>Python</span>
-              </div>
-            </div>
-
-            <!-- 03 藍新金流 -->
-            <div class="card">
-              <div class="tag">PAYMENT</div>
-              <h3>藍新金流串接</h3>
-              <p>
-                參與第三方金流串接，處理付款流程、交易資料及回傳結果，
-                並進行測試環境中的 API 串接與異常問題排查。
-              </p>
-              <div class="stack">
-                <span>C#</span>
-                <span>ASP.NET MVC</span>
-                <span>NewebPay</span>
-              </div>
-            </div>
-
-            <!-- 04 房地產網站爬蟲 -->
-            <div class="card">
-              <div class="tag">WEB SCRAPING</div>
-              <h3>房地產網站爬蟲</h3>
-              <p>
-                參與房地產網站相關爬蟲開發，處理網站資料解析、
-                資料整理、錯誤重試及資料庫寫入，並搭配排程進行自動化執行。
-              </p>
-              <div class="stack">
-                <span>Python</span>
-                <span>Selenium</span>
-                <span>Playwright</span>
-                <span>Puppeteer</span>
-                <span>MS SQL</span>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-
-
-        <!-- 07 聯絡 -->
-        <section class="sheet" data-index="6">
-          <h2 class="sheet-title"><span class="idx">07</span>聯絡方式</h2>
-          <p class="sheet-sub">歡迎透過以下方式與我聯繫</p>
-          <div class="contact-grid">
-            <a class="contact-card" href="mailto:77wdayw@gmail.com">
-              <div class="k">EMAIL</div>
-              <div class="v">77wdayw@gmail.com</div>
-            </a>
-            <!-- <a class="contact-card" href="#" target="_blank">
+          <!-- 07 聯絡 -->
+          <section class="sheet" data-index="6">
+            <h2 class="sheet-title"><span class="idx">07</span>聯絡方式</h2>
+            <p class="sheet-sub">歡迎透過以下方式與我聯繫</p>
+            <div class="contact-grid">
+              <a class="contact-card" href="mailto:77wdayw@gmail.com">
+                <div class="k">EMAIL</div>
+                <div class="v">77wdayw@gmail.com</div>
+              </a>
+              <!-- <a class="contact-card" href="#" target="_blank">
               <div class="k">GITHUB</div>
               <div class="v">github.com/yourname</div>
             </a> -->
-            <!-- <a class="contact-card" href="#" target="_blank">
+              <!-- <a class="contact-card" href="#" target="_blank">
               <div class="k">LINKEDIN</div>
               <div class="v">https://www.linkedin.com/in/%E8%8A%B3%E7%B6%BA-%E8%8E%8A-b93a59307/</div>
             </a> -->
-            <a class="contact-card" href="tel:+886963932431">
-              <div class="k">PHONE</div>
-              <div class="v">+886 963 932 431</div>
-            </a>
-          </div>
-        </section>
-
-      </div>
-
-      <footer class="paginator">
-        <button id="prevBtn" aria-label="上一頁">←</button>
-        <div class="paginator-mid">
-          <div class="dots" id="dots"></div>
-          <div class="sheet-count">NO. <span id="curNum">01</span> / 07</div>
+              <a class="contact-card" href="tel:+886963932431">
+                <div class="k">PHONE</div>
+                <div class="v">+886 963 932 431</div>
+              </a>
+            </div>
+          </section>
         </div>
-        <button id="nextBtn" aria-label="下一頁">→</button>
-      </footer>
 
+        <footer class="paginator">
+          <button id="prevBtn" aria-label="上一頁">←</button>
+          <div class="paginator-mid">
+            <div class="dots" id="dots"></div>
+            <div class="sheet-count">NO. <span id="curNum">01</span> / 07</div>
+          </div>
+          <button id="nextBtn" aria-label="下一頁">→</button>
+        </footer>
+      </div>
     </div>
-  </div>
 
-  <script>
-    (function () {
-      const tabs = document.querySelectorAll('nav.tabs button');
-      const pageDropdown = document.getElementById('pageDropdown');
-      const pageDropdownTrigger = document.getElementById('pageDropdownTrigger');
-      const pageDropdownLabel = document.getElementById('pageDropdownLabel');
-      const pageDropdownList = document.getElementById('pageDropdownList');
-      const pageDropdownItems = document.querySelectorAll('.page-dropdown-list li');
-      const sheets = document.querySelectorAll('.sheet');
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-      const curNum = document.getElementById('curNum');
-      const dotsWrap = document.getElementById('dots');
-      let current = 0;
-      const total = sheets.length;
-
-      for (let i = 0; i < total; i++) {
-        const d = document.createElement('span');
-        if (i === 0) d.classList.add('active');
-        dotsWrap.appendChild(d);
-      }
-      const dots = dotsWrap.querySelectorAll('span');
-
-      function render(index) {
-        sheets[current].classList.remove('active');
-        sheets[index].classList.add('active');
-
-        tabs.forEach(t => t.classList.remove('active'));
-        tabs[index].classList.add('active');
-
-        pageDropdownItems.forEach(li => li.classList.remove('current'));
-        pageDropdownItems[index].classList.add('current');
-        pageDropdownLabel.textContent = pageDropdownItems[index].getAttribute('data-label');
-
-        dots.forEach(d => d.classList.remove('active'));
-        dots[index].classList.add('active');
-
-        current = index;
-        curNum.textContent = String(index + 1).padStart(2, '0');
-        prevBtn.disabled = index === 0;
-        nextBtn.disabled = index === total - 1;
-
-        tabs[index].scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
-      }
-
-      function goTo(index) {
-        if (index < 0 || index >= total || index === current) return;
-        render(index);
-      }
-
-      tabs.forEach((tab, i) => tab.addEventListener('click', () => goTo(i)));
-
-      function openPageDropdown() {
-        pageDropdown.classList.add('open');
-        pageDropdownTrigger.setAttribute('aria-expanded', 'true');
-      }
-      function closePageDropdown() {
-        pageDropdown.classList.remove('open');
-        pageDropdownTrigger.setAttribute('aria-expanded', 'false');
-      }
-      pageDropdownTrigger.addEventListener('click', () => {
-        if (pageDropdown.classList.contains('open')) closePageDropdown();
-        else openPageDropdown();
-      });
-      pageDropdownItems.forEach(li => {
-        const i = parseInt(li.getAttribute('data-page'), 10);
-        li.addEventListener('click', () => { goTo(i); closePageDropdown(); });
-      });
-      document.addEventListener('click', (e) => {
-        if (!pageDropdown.contains(e.target)) closePageDropdown();
-      });
-      prevBtn.addEventListener('click', () => goTo(current - 1));
-      nextBtn.addEventListener('click', () => goTo(current + 1));
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closePageDropdown();
-        if (e.key === 'ArrowRight') goTo(current + 1);
-        if (e.key === 'ArrowLeft') goTo(current - 1);
-      });
-      prevBtn.disabled = true;
-
-      // ===== Skill star diagram =====
-      const skillNodes = document.querySelectorAll('.skill-node');
-      const spokes = document.querySelectorAll('.spoke');
-      const detailItems = document.querySelectorAll('.skill-detail-item');
-      const detailHint = document.getElementById('skillDetailHint');
-
-      function animateCount(el, target, duration) {
-        const start = performance.now();
-        function step(now) {
-          const p = Math.min((now - start) / duration, 1);
-          el.textContent = Math.round(p * target);
-          if (p < 1) requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
-      }
-
-      function selectSkill(name) {
-        skillNodes.forEach(n => {
-          const isMatch = n.getAttribute('data-skill') === name;
-          n.classList.toggle('active', isMatch);
-          n.setAttribute('aria-expanded', isMatch ? 'true' : 'false');
-        });
-        spokes.forEach(s => s.classList.toggle('active', s.getAttribute('data-skill') === name));
-        detailItems.forEach(d => d.classList.toggle('active', d.getAttribute('data-skill') === name));
-        if (detailHint) detailHint.style.display = 'none';
-
-        const activeItem = document.querySelector('.skill-detail-item[data-skill="' + name + '"]');
-        if (activeItem) {
-          const fill = activeItem.querySelector('.prof-bar-fill');
-          const countEl = activeItem.querySelector('.prof-count');
-          if (fill) {
-            const target = parseFloat(fill.getAttribute('data-target')) || 0;
-            fill.style.width = '0%';
-            void fill.offsetWidth; // 強制重繪以重新觸發動畫
-            requestAnimationFrame(() => { fill.style.width = target + '%'; });
-            if (countEl) animateCount(countEl, target, 900);
-          }
-        }
-      }
-
-      skillNodes.forEach(node => {
-        const name = node.getAttribute('data-skill');
-        node.addEventListener('click', () => selectSkill(name));
-        node.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectSkill(name); }
-        });
-      });
-    })();
-  </script>
-
-</body>
-
+    <script src="js/main.js"></script>
+  </body>
 </html>
