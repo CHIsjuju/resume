@@ -54,6 +54,8 @@
   function goTo(index) {
     if (index < 0 || index >= total || index === current) return;
     render(index);
+    // 同步更新網址 #hash（不增加瀏覽紀錄）
+    history.replaceState(null, "", "#" + pageHashes[index]);
   }
 
   tabs.forEach((tab, i) => tab.addEventListener("click", () => goTo(i)));
@@ -88,6 +90,42 @@
     if (e.key === "ArrowLeft") goTo(current - 1);
   });
   prevBtn.disabled = true;
+
+  // ===== 網址 #hash 對應分頁 =====
+  const pageHashes = [
+    "about",      // 01 個人簡介
+    "bio",        // 02 自傳
+    "skills",     // 03 技能
+    "certs",      // 04 證照
+    "experience", // 05 經歷
+    "projects",   // 06 專案
+    "contact",    // 07 聯絡
+  ];
+  // 別名：輸入這些也能對應到分頁（一律不分大小寫）
+  const hashAliases = {
+    profile: 0, intro: 0,
+    autobiography: 1,
+    skill: 2,
+    cert: 3, certificate: 3, certificates: 3,
+    work: 4, exp: 4,
+    project: 5,
+  };
+
+  function hashToIndex(hash) {
+    const key = decodeURIComponent(hash.replace(/^#/, "")).trim().toLowerCase();
+    if (!key) return -1;
+    const i = pageHashes.indexOf(key);
+    if (i !== -1) return i;
+    return key in hashAliases ? hashAliases[key] : -1;
+  }
+
+  function applyHash() {
+    const i = hashToIndex(location.hash);
+    if (i !== -1 && i !== current) render(i);
+  }
+
+  window.addEventListener("hashchange", applyHash);
+  applyHash(); // 載入時依網址開啟對應分頁
 
   // ===== Skill star diagram =====
   const skillNodes = document.querySelectorAll(".skill-node");
