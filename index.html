@@ -197,7 +197,7 @@
                   <span class="accent">Python</span
                   >（Selenium/Puppeteer）、
                    <span class="accent">C#</span
-                  > （Playwright） 等爬蟲與自動化開發經驗，
+                  >（Playwright）等爬蟲與自動化開發經驗，
                   能從需求分析、功能實作到問題排查，主動研究並找出適合的解決方案。
                 </p>
               </div>
@@ -515,12 +515,14 @@
                 <div class="lvl">一年多實務開發經驗</div>
                 <p>
                   主要使用 ASP.NET MVC 與 C# 進行網站後端開發與系統維護，
-                  負責功能開發、商業邏輯、資料處理及問題排查，具備從需求到實作的開發經驗。
+                  負責功能開發、商業邏輯、資料處理及問題排查，
+                  並使用 Hangfire 處理耗時的背景作業，具備從需求到實作的開發經驗。
                 </p>
                 <div class="tag-row">
                   <span>C#</span>
                   <span>ASP.NET MVC</span>
                   <span>Razor</span>
+                  <span>Hangfire</span>
                 </div>
               </div>
 
@@ -613,7 +615,7 @@
                   >
                 </div>
                 <div class="prof-bar-track">
-                  <div class="prof-bar-fill" data-target="82"></div>
+                  <div class="prof-bar-fill" data-target="87"></div>
                 </div>
                 <div class="lvl">多項第三方服務串接經驗</div>
                 <p>
@@ -692,6 +694,10 @@
                   <li>
                     開發 OpenStreetMap 地圖找房功能，整合 GeoJSON
                     區域資料及地圖標記，改善使用者操作體驗。
+                  </li>
+                  <li>
+                    串接售屋網物件上下架 API，負責資料格式組裝、依物件類型的欄位驗證及同步紀錄，
+                    並導入 Hangfire 將同步作業移至背景執行，避免前端等待 API 回應。
                   </li>
                 </ul>
               </div>
@@ -1041,22 +1047,15 @@ public ActionResult SearchItems(MyDataBase mdb, FormCollection collection)
                         <ol class="stage-steps">
                           <li>
                             <strong>取得資料與通知對象</strong>
-                            <small
-                              >讀取待通知資料、員工
-                              綁定資訊及客戶訂閱條件</small
-                            >
+                            <small>讀取待通知資料、員工綁定資訊及客戶訂閱條件</small>
                           </li>
                           <li>
                             <strong>判斷通知條件</strong>
-                            <small
-                              >依訂閱價格、區域、物件類型或議題狀態篩選資料；議題通知僅限上班日發送</small
-                            >
+                            <small>依訂閱價格、區域、物件類型或議題狀態篩選資料；議題通知僅限上班日發送</small>
                           </li>
                           <li>
                             <strong>組合訊息</strong>
-                            <small
-                              >依通知情境準備個別訊息、自動通知或廣告內容、推薦連結</small
-                            >
+                            <small>依通知情境準備個別訊息、自動通知或廣告內容、推薦連結</small>
                           </li>
                         </ol>
                       </div>
@@ -1068,16 +1067,11 @@ public ActionResult SearchItems(MyDataBase mdb, FormCollection collection)
                         <ol class="stage-steps">
                           <li>
                             <strong>寫入待發送佇列</strong>
-                            <small
-                              >將收件對象、訊息分類、主旨及內容寫入通知佇列</small
-                            >
+                            <small>將收件對象、訊息分類、主旨及內容寫入通知佇列</small>
                           </li>
                           <li>
                             <strong>呼叫 LINE API</strong>
-                            <small
-                              >定時檢查待發送資料，客戶廣告限定 20 點透過 Push
-                              API 發送</small
-                            >
+                            <small>定時檢查待發送資料，客戶廣告限定 20 點透過 Push API 發送</small>
                           </li>
                         </ol>
                       </div>
@@ -1669,13 +1663,12 @@ return Encoding.UTF8.GetString(rawBytes);</code></pre>
                 <div class="tag">WEB SCRAPING</div>
                 <h3>房地產網站爬蟲</h3>
                 <p>
-                  參與多個房地產網站的爬蟲開發，依網站特性選用不同方案：以 Python 搭配 Selenium、Puppeteer，
-                  以及以 C# 搭配 Playwright（打包成 exe 後交由 Windows 排程執行）。負責資料解析與整理、錯誤重試與進度恢復，並將資料寫入 MS SQL。
+                  參與多個房地產網站的爬蟲開發，依網站特性搭配 Python（Selenium）或 C#（Playwright）
+                  ，負責資料解析、錯誤重試與進度恢復，並寫入 MS SQL，由 Windows 排程自動執行。
                 </p>
                 <div class="stack">
                   <span>Python</span>
                   <span>Selenium</span>
-                  <span>Puppeteer</span>
                   <span>C#</span>
                   <span>Playwright</span>                  
                   <span>MS SQL</span>
@@ -1708,11 +1701,8 @@ return Encoding.UTF8.GetString(rawBytes);</code></pre>
                         </div>
                         <ol class="stage-steps">
                           <li>
-                            <strong>自動執行</strong
-                            ><small
-                              >透過 Windows 工作排程器搭配 PS1 / BAT
-                              腳本啟動爬蟲程式</small
-                            >
+                            <strong>自動執行</strong>
+                            <small>透過 Windows 工作排程器搭配 PS1 / BAT 腳本啟動爬蟲程式</small>
                           </li>
                         </ol>
                       </div>
@@ -1723,16 +1713,12 @@ return Encoding.UTF8.GetString(rawBytes);</code></pre>
                         </div>
                         <ol class="stage-steps">
                           <li>
-                            <strong>載入網站</strong
-                            ><small
-                              >依網站特性使用瀏覽器自動化工具載入列表頁與物件頁</small
-                            >
+                            <strong>載入網站</strong>
+                            <small>依網站特性使用瀏覽器自動化工具載入列表頁與物件頁</small>
                           </li>
                           <li>
-                            <strong>解析與清洗</strong
-                            ><small
-                              >擷取所需欄位、統一資料格式，處理缺漏或異常值</small
-                            >
+                            <strong>解析與清洗</strong>
+                            <small>擷取所需欄位、統一資料格式，處理缺漏或異常值</small>
                           </li>
                         </ol>
                       </div>
@@ -1743,12 +1729,12 @@ return Encoding.UTF8.GetString(rawBytes);</code></pre>
                         </div>
                         <ol class="stage-steps">
                           <li>
-                            <strong>比對資料</strong
-                            ><small>依物件識別欄位確認是否已存在</small>
+                            <strong>比對資料</strong>
+                            <small>依物件識別欄位確認是否已存在</small>
                           </li>
                           <li>
-                            <strong>寫入與記錄</strong
-                            ><small>新增或更新資料，並處理執行異常</small>
+                            <strong>寫入與記錄</strong>
+                            <small>新增或更新資料，並處理執行異常</small>
                           </li>
                         </ol>
                       </div>
@@ -1791,9 +1777,9 @@ return Encoding.UTF8.GetString(rawBytes);</code></pre>
                       <div class="code-col">
 
                         <div class="code-tabs" role="tablist">
-                          <button type="button" class="on">01 · 頁面載入與失敗重試</button>
-                          <button type="button">02 · 資料比對與資料庫同步</button>
-                          <button type="button">03 · 爬蟲進度保存與續跑</button>
+                          <button type="button" class="on">01 · 載入與重試</button>
+                          <button type="button">02 · 資料比對</button>
+                          <button type="button">03 · 進度續跑</button>
                         </div>
 
                         <!-- 01 頁面載入與失敗重試 -->
