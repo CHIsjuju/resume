@@ -899,8 +899,8 @@ formData += '&boundsNorth=' + encodeURIComponent(bounds.getNorth());
 formData += '&boundsSouth=' + encodeURIComponent(bounds.getSouth());
 formData += '&boundsEast=' + encodeURIComponent(bounds.getEast());
 formData += '&boundsWest=' + encodeURIComponent(bounds.getWest());
-formData += '&centerLat=' + encodeURIComponent(center.lat);
-formData += '&centerLng=' + encodeURIComponent(center.lng);
+formData += '&amp;centerLat=' + encodeURIComponent(center.lat);
+formData += '&amp;centerLng=' + encodeURIComponent(center.lng);
 
 // 傳送查詢條件至 MVC
 $.ajax({
